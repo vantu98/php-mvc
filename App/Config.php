@@ -27,4 +27,11 @@ class Config{
      * @var string
      */
     const DB_PASS = 'root';
+
+    /**
+     * Show errors
+     * 
+     * @var boolean
+     */
+    const SHOW_ERRORS = true;
 }
