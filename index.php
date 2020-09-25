@@ -19,3 +19,5 @@ $greet = Test::sayHello();
 echo $greet;
 
 var_dump(Test::all());
+
+echo dirname(__DIR__);
