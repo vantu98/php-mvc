@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,21 @@
     <link rel="stylesheet" href="http://localhost/php_2/php-mvc/public/css/app.css">
 
 </head>
+
 <body>
-    {% block content %}
-    {% endblock %}
+    <div class="flex h-screen bg-gray-100 dark:bg-gray-900" x-data="data()">
+        <!-- Desktop sidebar -->
+        {% include "partials/_aside.html" %}
+
+        <!-- Mobile sidebar -->
+        {% include "partials/_mobile-aside.html" %}
+        <div class="flex flex-col flex-1 w-full">
+            {% include "partials/_nav.html" %}
+
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
 </body>
+
 </html>
