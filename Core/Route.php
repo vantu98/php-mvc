@@ -2,11 +2,11 @@
 
 namespace Core;
 
-abstract class Route
+class Route
 {
     protected $_route = [];
 
-    protected $_role = 'user';
+    protected $_role = 'User';
     protected $_controller = 'HomeController';
     protected $_action = 'index';
     protected $_params = [];
@@ -14,10 +14,10 @@ abstract class Route
     public function __construct()
     {
         if (isset($_GET['role'])) {
-            $this->_role = $_GET['role'];
+            $this->_role = ucfirst($_GET['role']);
         }
         if (isset($_GET['controller'])) {
-            $this->_controller = $_GET['controller'];
+            $this->_controller = ucfirst($_GET['controller']) . "Controller";
         }
         if (isset($_GET['action'])) {
             $this->_action = $_GET['action'];
@@ -26,10 +26,18 @@ abstract class Route
             $this->_params = $this->_paramsProcession($_GET['params']);
         }
 
-        $this->_route['role'] = $this->_role;
-        $this->_route['controller'] = $this->_controller;
-        $this->_route['action'] = $this->_action;
-        $this->_route['params'] = $this->_params;
+        //namespace
+        // App/$role/Controllers/$controllerController.php
+        $namespace = "App\\" . $this->_role . "\\Controllers\\" . $this->_controller;
+
+        $obj = new $namespace;
+
+        call_user_func_array([$obj, $this->_action], $this->_params);
+
+        // $this->_route['role'] = $this->_role;
+        // $this->_route['controller'] = $this->_controller;
+        // $this->_route['action'] = $this->_action;
+        // $this->_route['params'] = $this->_params;
     }
 
     public function getRoute()

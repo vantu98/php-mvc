@@ -1,6 +1,7 @@
 <?php
 
 use Core\Route;
+use App\User\Controllers\HomeController;
 
 require 'vendor/autoload.php';
 
@@ -12,4 +13,3 @@ set_error_handler('Core\Error::errorHandler');
 set_exception_handler('Core\Error::exceptionHandler');
 
 $router =  new Route;
-var_dump($router->getRoute());

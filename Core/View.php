@@ -22,9 +22,9 @@ class View
         extract($args, EXTR_SKIP);
 
         if ($role === null) {
-            $file = dirname(__DIR__) . "App/views/$view";
+            $file = dirname(__DIR__) . "/App/views/$view";
         } else {
-            $file = dirname(__DIR__) . "App/$role/views/$view";
+            $file = dirname(__DIR__) . "/App/$role/views/$view";
         }
 
         if (is_readable($file)) {
@@ -49,11 +49,11 @@ class View
 
         if ($twig === null) {
             if ($role === null) {
-                $loader = new FilesystemLoader(dirname(__DIR__) . "App/$role/views");
+                $loader = new FilesystemLoader(dirname(__DIR__) . "/App/views");
             } else {
-                $loader = new FilesystemLoader(dirname(__DIR__) . "App/views");
+                $loader = new FilesystemLoader(dirname(__DIR__) . "/App/$role/views");
             }
-            
+
             $twig = new Environment($loader);
         }
 

@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Admin\Controller;
+namespace App\Admin\Controllers;
 
-class DashBoard
+use Core\View;
+
+class DashBoardController
 {
     public function index()
     {
-        return "hello from admin - index";
+        View::renderTemplate('Admin', 'pages/dashboard.html', ['greet' => 'Hello there']);
     }
 }
