@@ -1,0 +1,17 @@
+{
+  "name": "tunv/php-mvc",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "tunv",
+      "email": "nguyenvantu191298@gmail.com"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "Core\\": "Core/",
+      "App\\": "App/"
+    }
+  }
+}
