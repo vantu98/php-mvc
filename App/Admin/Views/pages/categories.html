@@ -1,0 +1,162 @@
+{% extends "master.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<main class="h-full overflow-y-auto">
+    <div class="container px-6 mx-auto grid">
+        <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+            {{ title }}
+        </h2>
+        <!-- New Table -->
+        <div class="grid grid-cols-4 gap-4">
+            {# Add New Category #}
+            <div class="w-full">
+                <h3 class="font-semibold text-gray-500">Add New Category</h3>
+                <form action="" method="post" class="my-4">
+                    <label for="category-name" class="block text-gray-700 text-sm font-bold mb-2 mt-6">Category
+                        Name</label>
+                    <input type="text" name="category-name" id="category-name" placeholder="Example Category"
+                        class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm">
+
+                    <label for="category-slug" class="block text-gray-700 text-sm font-bold mb-2 mt-2">Category
+                        Slug</label>
+                    <input type="text" name="category-slug" id="category-slug" placeholder="example-slug"
+                        class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm">
+
+                    <label for="category-description" class="block text-gray-700 text-sm font-bold mb-2 mt-2">Category
+                        Description</label>
+                    <input type="textarea" name="category-description" id="category-description" placeholder="Lorem ..."
+                        class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm h-24">
+
+                    <button type="submit"
+                        class="p-2 w-full text-sm rounded-lg bg-orange-500 font-semibold text-white mt-6 hover:bg-orange-600">Add
+                        New Category</button>
+                </form>
+            </div>
+
+            {# List of categories #}
+            <div class="w-full col-span-3">
+                <div class="w-full overflow-hidden rounded-lg shadow-xs">
+                    <div class="w-full overflow-x-auto">
+                        <table class="w-full whitespace-no-wrap">
+                            <thead>
+                                <tr
+                                    class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-50">
+                                    <th class="px-4 py-3">STT</th>
+                                    <th class="px-4 py-3">Category Name</th>
+                                    <th class="px-4 py-3">Description</th>
+                                    <th class="px-4 py-3">Slug</th>
+                                    
+                                    <th class="px-4 py-3">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                                {% for item in categories %}
+                                <tr class="text-gray-700 dark:text-gray-400">
+                                    <td class="px-4 py-3">
+                                        1
+                                    </td>
+                                    <td class="px-4 py-3 text-sm">
+                                        <strong>{{ item.c_name }}</strong>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm">
+                                        {{ item.c_desc }}
+                                    </td>
+                                    <td class="px-4 py-3 text-sm">
+                                        {{ item.c_slug }}
+                                    </td>
+                                    
+                                    <td class="px-4 py-3 text-sm">
+                                        <a href="#" class="text-blue-400 hover:text-blue-500">12</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div
+                        class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
+                        <span class="flex items-center col-span-3">
+                            Showing 1-10 of 100
+                        </span>
+                        <span class="col-span-2"></span>
+                        <!-- Pagination -->
+                        <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
+                            <nav aria-label="Table navigation">
+                                <ul class="inline-flex items-center">
+                                    <li>
+                                        <button
+                                            class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
+                                            aria-label="Previous">
+                                            <svg aria-hidden="true" class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                                    clip-rule="evenodd" fill-rule="evenodd"></path>
+                                            </svg>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                            1
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                            2
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            class="px-3 py-1 text-white transition-colors duration-150 bg-orange-400 rounded-md focus:outline-none focus:shadow-outline-orange">
+                                            3
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                            4
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <span class="px-3 py-1">...</span>
+                                    </li>
+                                    <li>
+                                        <button
+                                            class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                            8
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
+                                            9
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
+                                            aria-label="Next">
+                                            <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                    clip-rule="evenodd" fill-rule="evenodd"></path>
+                                            </svg>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="my-6"></div>
+    </div>
+</main>
+{% endblock %}

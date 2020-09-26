@@ -1,7 +1,6 @@
 <?php
 
 use Core\Route;
-use App\User\Controllers\HomeController;
 
 require 'vendor/autoload.php';
 
