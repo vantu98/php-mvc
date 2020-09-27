@@ -75,8 +75,7 @@
                                             class="text-blue-400 hover:text-blue-500 hover:underline px-2">View</a>
                                         <a href="{{ base_url }}/admin/edit-category/{{ item.c_slug }}.html"
                                             class="text-teal-400 hover:text-teal-500 hover:underline px-2">Edit</a>
-                                        <a href="{{ base_url }}/admin/delete-category/{{ item.c_slug }}"
-                                            class="text-red-400 hover:text-red-500 hover:underline px-2" onclick="fucn(event)" data-slug="{{ item.slug }}">Delete</a>
+                                        <div class="text-red-400 hover:text-red-500 hover:underline px-2" onclick="fucn(event)" data-slug="{{ item.slug }}">Delete</div>
                                     </td>
                                 </tr>
                                 {% endfor %}
