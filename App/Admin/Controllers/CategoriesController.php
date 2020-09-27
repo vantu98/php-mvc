@@ -6,7 +6,7 @@ use App\Admin\Models\Categories;
 use App\Admin\Test\Test;
 use Core\View;
 use App\Config;
-
+use PDOException;
 
 class CategoriesController
 {
@@ -32,8 +32,20 @@ class CategoriesController
             'c_slug' => $_POST['c_slug'],
         ];
 
-        Categories::addNew($data);
+        try {
+            Categories::addNew($data);
 
-        echo json_encode($data);
+            $response = [
+                'type' => 'success',
+                'message' => "Add new category: " . $_POST['c_name'] . " sucessfully",
+            ];
+        } catch (PDOException $e) {
+            $response = [
+                'type' => 'error',
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        echo json_encode($response);
     }
 }

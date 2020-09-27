@@ -187,6 +187,7 @@
             $("#category-slug").val(slug);
         });
 
+        // add new category
         addnewCatBtn.on("click", function (event) {
             event.preventDefault();
 
@@ -209,9 +210,14 @@
                     c_desc: categoryDesc
                 },
                 success: function (response) {
-                    console.log(response);
+                    // JSON data process here 
+                    // Render a alert for user 
                 }
             });
+        });
+
+        deleteCatBtn.on("click", function (event) {
+            event.preventDefault();
         });
 
         function removeVietnameseTones(str) {
