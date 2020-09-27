@@ -34,4 +34,11 @@ class Config{
      * @var boolean
      */
     const SHOW_ERRORS = true;
+
+    /**
+     * Base URL
+     * 
+     * @var string
+     */
+    const BASE_URL = "http://localhost/php_2/php-mvc";
 }

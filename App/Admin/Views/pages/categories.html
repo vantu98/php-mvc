@@ -11,11 +11,11 @@
             {{ title }}
         </h2>
         <!-- New Table -->
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-4 gap-6">
             {# Add New Category #}
             <div class="w-full">
                 <h3 class="font-semibold text-gray-500">Add New Category</h3>
-                <form action="" method="post" class="my-4">
+                <div class="my-4">
                     <label for="category-name" class="block text-gray-700 text-sm font-bold mb-2 mt-6">Category
                         Name</label>
                     <input type="text" name="category-name" id="category-name" placeholder="Example Category"
@@ -28,20 +28,19 @@
 
                     <label for="category-description" class="block text-gray-700 text-sm font-bold mb-2 mt-2">Category
                         Description</label>
-                    <input type="textarea" name="category-description" id="category-description" placeholder="Lorem ..."
-                        class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm h-24">
-
-                    <button type="submit"
+                    <textarea name="category-description" id="category-description" cols="30" rows="10"
+                        class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm h-24"></textarea>
+                    <button type="submit" id="add-new-cat-btn"
                         class="p-2 w-full text-sm rounded-lg bg-orange-500 font-semibold text-white mt-6 hover:bg-orange-600">Add
                         New Category</button>
-                </form>
+                </div>
             </div>
 
             {# List of categories #}
             <div class="w-full col-span-3">
                 <div class="w-full overflow-hidden rounded-lg shadow-xs">
                     <div class="w-full overflow-x-auto">
-                        <table class="w-full whitespace-no-wrap">
+                        <table class="w-full whitespace-no-wrap" id="category-table">
                             <thead>
                                 <tr
                                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b bg-gray-50">
@@ -49,7 +48,6 @@
                                     <th class="px-4 py-3">Category Name</th>
                                     <th class="px-4 py-3">Description</th>
                                     <th class="px-4 py-3">Slug</th>
-                                    
                                     <th class="px-4 py-3">Action</th>
                                 </tr>
                             </thead>
@@ -63,14 +61,22 @@
                                         <strong>{{ item.c_name }}</strong>
                                     </td>
                                     <td class="px-4 py-3 text-sm">
-                                        {{ item.c_desc }}
+                                        {% if item.c_desc | length > 10 %}
+                                        <p>{{ item.c_desc | slice(0,10) }} ... </p>
+                                        {% else %}
+                                        <p>{{ item.c_desc }}</p>
+                                        {% endif %}
                                     </td>
                                     <td class="px-4 py-3 text-sm">
                                         {{ item.c_slug }}
                                     </td>
-                                    
                                     <td class="px-4 py-3 text-sm">
-                                        <a href="#" class="text-blue-400 hover:text-blue-500">12</a>
+                                        <a href="{{ base_url }}/categories/{{ item.c_slug }}.html"
+                                            class="text-blue-400 hover:text-blue-500 hover:underline px-2">View</a>
+                                        <a href="{{ base_url }}/admin/edit-category/{{ item.c_slug }}.html"
+                                            class="text-teal-400 hover:text-teal-500 hover:underline px-2">Edit</a>
+                                        <a href="{{ base_url }}/admin/delete-category/{{ item.c_slug }}.html"
+                                            class="text-red-400 hover:text-red-500 hover:underline px-2">Delete</a>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -159,4 +165,83 @@
         <div class="my-6"></div>
     </div>
 </main>
+{% endblock %}
+
+{% block footerScript %}
+<script>
+    $(document).ready(function () {
+        var categoryName = $("#category-name");
+        let addnewCatBtn = $("#add-new-cat-btn");
+
+        // auto generate slug
+        categoryName.on("change", function () {
+            var slug = $("#category-name").val();
+
+            // replace vietnamese char
+            slug = removeVietnameseTones(slug);
+            // to lowercase
+            slug = slug.toLowerCase();
+            // replace " " to "-"
+            slug = slug.replace(" ", "-");
+
+            $("#category-slug").val(slug);
+        });
+
+        addnewCatBtn.on("click", function (event) {
+            event.preventDefault();
+
+            // get DOM of input
+            var categoryName = $("#category-name").val();
+            var categorySlug = $("#category-slug").val();
+            var categoryDesc = $("#category-description").val();
+
+            // Test data
+            //console.log(categoryName+" "+categorySlug+" "+categoryDesc);
+
+            //
+            $.ajax({
+                url: "{{ base_url }}/admin/add-new-category",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    c_name: categoryName,
+                    c_slug: categorySlug,
+                    c_desc: categoryDesc
+                },
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+        });
+
+        function removeVietnameseTones(str) {
+            str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+            str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+            str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+            str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+            str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+            str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+            str = str.replace(/đ/g, "d");
+            str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+            str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+            str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+            str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+            str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+            str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+            str = str.replace(/Đ/g, "D");
+            // Some system encode vietnamese combining accent as individual utf-8 characters
+            // Một vài bộ encode coi các dấu mũ, dấu chữ như một kí tự riêng biệt nên thêm hai dòng này
+            str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ""); // ̀ ́ ̃ ̉ ̣  huyền, sắc, ngã, hỏi, nặng
+            str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // ˆ ̆ ̛  Â, Ê, Ă, Ơ, Ư
+            // Remove extra spaces
+            // Bỏ các khoảng trắng liền nhau
+            str = str.replace(/ + /g, " ");
+            str = str.trim();
+            // Remove punctuations
+            // Bỏ dấu câu, kí tự đặc biệt
+            str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, " ");
+            return str;
+        }
+    });
+</script>
 {% endblock %}
