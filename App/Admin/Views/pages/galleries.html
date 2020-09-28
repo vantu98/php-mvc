@@ -1,0 +1,88 @@
+{% extends "master.html" %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+<main class="h-full overflow-y-auto">
+    <div class="container px-6 mx-auto grid">
+        <div class="flex items-center ">
+            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200 mr-4">
+                {{ title }}
+            </h2>
+
+            <!--Add New Images btn-->
+            <button id="upload-img-btn"
+                class="px-4 py-2 border border-blue-400 bg-white text-blue-400 hover:bg-blue-400 hover:text-white rounded-lg">Upload
+                New Images</button>
+        </div>
+
+        <!--Upload area-->
+        <section class="hidden h-full overflow-auto p-8 w-full h-full flex flex-col" id="upload-img-field">
+            <header class="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
+                {# <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
+                    <span>Drag and drop your</span>&nbsp;<span>files anywhere or</span>
+                </p> #}
+                <input id="hidden-input" type="file" multiple class="hidden" />
+                {# <button id="button"
+                    class="mt-2 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none">
+                    Upload a file
+                </button> #}
+                <form name="form-img" enctype="multipart/form-data" method="post" class="">
+                    <label for="upload-img">Upload Image File:</label>
+                    <input name="file[]" type="file" multiple />
+                    <input type="submit" id="submit-upload-img" value="Submit"
+                        class="block px-4 py-2 bg-blue-400 hover:bg-blue-500 text-white mt-2 rounded-lg" />
+                </form>
+            </header>
+        </section>
+
+        <!--Show all images item-->
+        <div class="grid grid-cols-6 gap-4" id="galleries">
+            {% for item in data %}
+            <img src="{{ item.g_slug }}" alt="{{ item.g_name }}">
+            {% endfor %}
+        </div>
+        <div class="my-6"></div>
+    </div>
+</main>
+{% endblock %}
+
+{% block footerScript %}
+<script>
+    $(document).ready(function () {
+        $('#upload-img-btn').on("click", function () {
+            $('#upload-img-field').toggleClass("hidden");
+        });
+
+        $('#submit-upload-img').on("click", function () {
+            var formData = new FormData();
+
+            //read selected files
+            var totalFiles = document.getElementById('files').files.length;
+            for (var index = 0; index < totalfiles; index++) {
+                form_data.append("files[]", document.getElementById('files').files[index]);
+            }
+
+            //AJAX Request
+            $ajax({
+                url: "{{ base_url }}/admin/categories/postUploadImg",
+                type: "POST",
+                data: formData,
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    for (var index = 0; index < response.length; index++) {
+                        var src = response[index];
+
+                        // Add img element in <div id='preview'>
+                        $('#galleries').append('<img src="'+src+'" alt="">');
+                    }
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
