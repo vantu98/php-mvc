@@ -31,7 +31,7 @@ Dashboard
                 </button> #}
                 <form name="form-img" enctype="multipart/form-data" method="post" class="">
                     <label for="upload-img">Upload Image File:</label>
-                    <input name="file[]" type="file" multiple />
+                    <input type="file" id='files' name="files[]" multiple>
                     <input type="submit" id="submit-upload-img" value="Submit"
                         class="block px-4 py-2 bg-blue-400 hover:bg-blue-500 text-white mt-2 rounded-lg" />
                 </form>
@@ -85,4 +85,6 @@ Dashboard
         });
     });
 </script>
+
+<script src="public/js/gallery/upload.js"></script>
 {% endblock %}
