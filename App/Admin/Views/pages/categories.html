@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+
 <main class="h-full overflow-y-auto">
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
@@ -71,9 +72,9 @@
                                         {{ item.c_slug }}
                                     </td>
                                     <td class="px-4 py-3 text-sm">
-                                        <a href="{{ base_url }}/categories/{{ item.c_slug }}.html"
+                                        <a href="{{ base_url }}/categories/{{ item.c_slug }}"
                                             class="text-blue-400 hover:text-blue-500 hover:underline px-2">View</a>
-                                        <a href="{{ base_url }}/admin/edit-category/{{ item.c_slug }}.html"
+                                        <a href="{{ base_url }}/admin/edit-category/{{ item.id }}"
                                             class="text-teal-400 hover:text-teal-500 hover:underline px-2">Edit</a>
                                         <div class="text-red-400 hover:text-red-500 hover:underline px-2" onclick="fucn(event)" data-slug="{{ item.slug }}">Delete</div>
                                     </td>

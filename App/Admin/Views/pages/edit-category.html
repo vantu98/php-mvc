@@ -1,0 +1,73 @@
+{% extends "master.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<main class="h-full overflow-y-auto">
+    <div class="container px-6 mx-auto grid">
+        <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+            {{ title }}
+        </h2>
+        <!-- New Table -->
+        <div class="grid grid-cols-4 gap-6">
+            {# Add New Category #}
+            <div class="w-full">
+                <h3 class="font-semibold text-gray-500">Update</h3>
+                <div class="my-4">
+                    <label for="category-name" class="block text-gray-700 text-sm font-bold mb-2 mt-6">Category
+                        Name</label>
+                    <input type="text" name="category-name" id="category-name" placeholder="Example Category"
+                        class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm"
+                        value="{{ data[0].c_name }}">
+
+                    <label for="category-slug" class="block text-gray-700 text-sm font-bold mb-2 mt-2">Category
+                        Slug</label>
+                    <input type="text" name="category-slug" id="category-slug" placeholder="example-slug"
+                        class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm"
+                        value="{{ data[0].c_slug }}">
+
+                    <label for="category-description" class="block text-gray-700 text-sm font-bold mb-2 mt-2">Category
+                        Description</label>
+                    <textarea name="category-description" id="category-description" cols="30" rows="10"
+                        class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm h-24"
+                        value="{{ data[0].c_desc }}"></textarea>
+                    <button type="submit" id="update-cat-btn"
+                        class="p-2 w-full text-sm rounded-lg bg-orange-500 font-semibold text-white mt-6 hover:bg-orange-600">
+                        Update category</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="my-6"></div>
+    </div>
+</main>
+{% endblock %}
+
+{% block footerScript %}
+<script>
+    $(document).ready(function () {
+        $("#update-cat-btn").on("click", function () {
+            cName = $("#category-name").val();
+            cSlug = $("#category-slug").val();
+            cDesc = $("#category-desc").val();
+
+            //AJAX
+            $.ajax({
+                url: "http://localhost/php_2/php-mvc/admin/post-edit-category/{{ data[0].id }}",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    c_name: cName,
+                    c_desc: cDesc,
+                    c_slug: cSlug
+                },
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+        });
+    });
+</script>
+{% endblock footerScript %}

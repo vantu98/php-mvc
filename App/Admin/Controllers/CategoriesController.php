@@ -48,4 +48,21 @@ class CategoriesController
 
         echo json_encode($response);
     }
+
+    public function updateView($c_id)
+    {
+        $category = Categories::getSingle($c_id);
+
+        View::renderTemplate('admin', 'pages/edit-category.html', ['data' => $category, 'title' => 'Update Category']);
+    }
+
+    public function postUpdateCat($id)
+    {
+        $data = [
+            'c_name' => $_POST['c_name'],
+            'c_desc' => $_POST['c_desc'],
+            'c_slug' => $_POST['c_slug']
+        ];
+        Categories::updateById($id, $data);
+    }
 }
