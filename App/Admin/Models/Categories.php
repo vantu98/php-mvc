@@ -47,7 +47,7 @@ class Categories extends Model
 
     public static function updateById($data)
     {
-        $db = static::db();
+        $db = static::DB();
 
         $sql = "UPDATE categories SET c_name=:_name, c_desc=:_desc, c_slug=:_slug WHERE id=:_id";
         $db->prepare($sql)->execute($data);

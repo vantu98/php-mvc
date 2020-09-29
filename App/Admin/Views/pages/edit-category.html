@@ -51,23 +51,25 @@
         $("#update-cat-btn").on("click", function () {
             cName = $("#category-name").val();
             cSlug = $("#category-slug").val();
-            cDesc = $("#category-desc").val();
+            cDesc = $("#category-description").val();
+            cId = "{{ data[0].id }}"
 
-            //AJAX
+            console.log(cName + " " + cSlug + " " + cDesc + " " + cId);
+
             $.ajax({
-                url: "http://localhost/php_2/php-mvc/admin/post-edit-category/",
+                url: "{{ base_url }}/admin/post-edit-category",
                 type: "POST",
                 dataType: "json",
                 data: {
-                    name: cName,
-                    desc: cDesc,
-                    slug: cSlug,
-                    id: '{{ data[0].id }}'
+                    c_name: cName,
+                    c_slug: cSlug,
+                    c_desc: cDesc,
+                    c_id: cId
                 },
                 success: function (response) {
                     console.log(response);
                 }
-            });
+            })
         });
     });
 </script>
