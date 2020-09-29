@@ -45,13 +45,11 @@ class Categories extends Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function updateById($id, $data)
+    public static function updateById($data)
     {
         $db = static::db();
 
-        $sql = "UPDATE categories SET c_name:=c_name, c_desc:=c_desc, c_slug:=c_slug WHERE id = $id";
-
-        $stmt = $db->prepare($sql);
-        $stmt->execute($data);
+        $sql = "UPDATE categories SET c_name=:_name, c_desc=:_desc, c_slug=:_slug WHERE id=:_id";
+        $db->prepare($sql)->execute($data);
     }
 }

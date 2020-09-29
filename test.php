@@ -38,14 +38,29 @@ class Test extends Model
             echo $e->getMessage();
         }
     }
+
+    public static function updateByID($data)
+    {
+        $db = static::getDB();
+
+        $sql = "UPDATE categories SET c_name=:_name, c_desc=:_desc, c_slug=:_slug WHERE id=:_id";
+        $db->prepare($sql)->execute($data);
+    }
 }
 
+$id = 14;
 $data = [
-    'id' => NULL,
-    'gallery_id' => '1',
-    'c_name' => 'Test data',
-    'c_desc' => 'This is test data category description',
-    'c_slug' => 'test-data',
+    '_name' => 'Test data',
+    '_desc' => 'This is test data category description',
+    '_slug' => 'test-data',
+    '_id' => 15,
 ];
 
-Test::add($data);
+// Test::add($data);
+try {
+    Test::updateByID($data);
+
+    echo "update success at id =" . $data['_id'];
+} catch (PDOException $th) {
+    echo $th->getMessage();
+}

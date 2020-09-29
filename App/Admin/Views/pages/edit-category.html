@@ -55,13 +55,14 @@
 
             //AJAX
             $.ajax({
-                url: "http://localhost/php_2/php-mvc/admin/post-edit-category/{{ data[0].id }}",
+                url: "http://localhost/php_2/php-mvc/admin/post-edit-category/",
                 type: "POST",
                 dataType: "json",
                 data: {
-                    c_name: cName,
-                    c_desc: cDesc,
-                    c_slug: cSlug
+                    name: cName,
+                    desc: cDesc,
+                    slug: cSlug,
+                    id: '{{ data[0].id }}'
                 },
                 success: function (response) {
                     console.log(response);

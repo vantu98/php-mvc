@@ -56,13 +56,26 @@ class CategoriesController
         View::renderTemplate('admin', 'pages/edit-category.html', ['data' => $category, 'title' => 'Update Category']);
     }
 
-    public function postUpdateCat($id)
+    public function postUpdateCat()
     {
         $data = [
-            'c_name' => $_POST['c_name'],
-            'c_desc' => $_POST['c_desc'],
-            'c_slug' => $_POST['c_slug']
+            '_name' => $_POST['name'],
+            '_desc' => $_POST['desc'],
+            '_slug' => $_POST['slug'],
+            '_id' => $_POST['id']
         ];
-        Categories::updateById($id, $data);
+
+        try {
+            Categories::updateById($data);
+            json_decode([
+                'code' => 'success',
+                'message' => 'Success'
+            ]);
+        } catch (PDOException $e) {
+            json_encode([
+                'code' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 }
