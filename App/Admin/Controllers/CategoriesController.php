@@ -86,4 +86,25 @@ class CategoriesController
 
         echo json_encode($response);
     }
+
+    public function postDeleteCategory()
+    {
+        $response = [];
+        $id = $_POST['id'];
+        try {
+            Categories::deleteCatById($id);
+
+            $response = [
+                'code' => 'success',
+                'message' => 'Delete Success'
+            ];
+        } catch (PDOException $e) {
+            $response = [
+                'code' => 'success',
+                'message' => $e->getMessage()
+            ];
+        }
+
+        echo json_encode($response);
+    }
 }

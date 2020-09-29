@@ -76,7 +76,7 @@
                                             class="text-blue-400 hover:text-blue-500 hover:underline px-2">View</a>
                                         <a href="{{ base_url }}/admin/edit-category/{{ item.id }}"
                                             class="text-teal-400 hover:text-teal-500 hover:underline px-2">Edit</a>
-                                        <div class="text-red-400 hover:text-red-500 hover:underline px-2" onclick="fucn(event)" data-slug="{{ item.slug }}">Delete</div>
+                                        <button class="deleteCategoryBtn text-red-400 hover:text-red-500 hover:underline px-2" data-id="{{ item.id }}">Delete</button>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -201,7 +201,7 @@
 
             //
             $.ajax({
-                url: "http://localhost/php_2/php-mvc/admin/edit-category/1",
+                url: "http://localhost/php_2/php-mvc/admin/add-new-category",
                 type: "POST",
                 dataType: "json",
                 data: {
@@ -210,15 +210,30 @@
                     c_desc: categoryDesc
                 },
                 success: function (response) {
-                    // JSON data process here 
-                    // Render a alert for user 
+                    console.log(response);
                 }
             });
         });
 
-        function func(event){
-            console.log(event.target)
-        }
+        $(".deleteCategoryBtn").click(function(){
+            var el = this;
+
+            var id = $(this).data('id');
+
+            console.log(id);
+
+            $.ajax({
+                url: "{{ base_url }}/admin/delete-category",
+                dataType: "json",
+                type: "POST",
+                data: {
+                    id: id
+                },
+                success: function(response){
+                    console.log(response);
+                }
+            })
+        });
 
         function removeVietnameseTones(str) {
             str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");

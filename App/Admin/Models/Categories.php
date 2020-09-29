@@ -52,4 +52,13 @@ class Categories extends Model
         $sql = "UPDATE categories SET c_name=:_name, c_desc=:_desc, c_slug=:_slug WHERE id=:_id";
         $db->prepare($sql)->execute($data);
     }
+
+    public static function deleteCatById($id)
+    {
+        $db = static::DB();
+
+        $sql = "DELETE FROM categories WHERE id = $id";
+
+        $db->exec($sql);
+    }
 }
