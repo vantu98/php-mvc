@@ -29,20 +29,28 @@ Dashboard
                     class="mt-2 rounded-sm px-3 py-1 bg-gray-200 hover:bg-gray-300 focus:shadow-outline focus:outline-none">
                     Upload a file
                 </button> #}
-                <form name="form-img" enctype="multipart/form-data" method="post" class="">
-                    <label for="upload-img">Upload Image File:</label>
+                <form method='post' action='' enctype="multipart/form-data">
                     <input type="file" id='files' name="files[]" multiple>
-                    <input type="submit" id="submit-upload-img" value="Submit"
-                        class="block px-4 py-2 bg-blue-400 hover:bg-blue-500 text-white mt-2 rounded-lg" />
+                    </br>
+                    <input type="button" id="submit" value='Upload'>
                 </form>
             </header>
         </section>
 
         <!--Show all images item-->
-        <div class="grid grid-cols-6 gap-4" id="galleries">
-            {% for item in data %}
-            <img src="{{ item.g_slug }}" alt="{{ item.g_name }}">
-            {% endfor %}
+        <div class="grid grid-cols-4 gap-6">
+            <div class="col-span-3">
+                <div class="grid grid-cols-6 gap-4" id="galleries">
+                    {% for item in data %}
+                    <img src="{{ item.g_slug }}" alt="{{ item.g_name }}">
+                    {% endfor %}
+                </div>
+            </div>
+
+            {# img selected #}
+            <div class="w-full p-2">
+                <h2 class="text-xl text-gray-600">Image Selected</h2>
+            </div>
         </div>
         <div class="my-6"></div>
     </div>
@@ -54,34 +62,6 @@ Dashboard
     $(document).ready(function () {
         $('#upload-img-btn').on("click", function () {
             $('#upload-img-field').toggleClass("hidden");
-        });
-
-        $('#submit-upload-img').on("click", function () {
-            var formData = new FormData();
-
-            //read selected files
-            var totalFiles = document.getElementById('files').files.length;
-            for (var index = 0; index < totalfiles; index++) {
-                form_data.append("files[]", document.getElementById('files').files[index]);
-            }
-
-            //AJAX Request
-            $ajax({
-                url: "{{ base_url }}/admin/categories/postUploadImg",
-                type: "POST",
-                data: formData,
-                dataType: "json",
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    for (var index = 0; index < response.length; index++) {
-                        var src = response[index];
-
-                        // Add img element in <div id='preview'>
-                        $('#galleries').append('<img src="'+src+'" alt="">');
-                    }
-                }
-            });
         });
     });
 </script>
