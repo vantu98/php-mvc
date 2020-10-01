@@ -34,4 +34,6 @@ class Galleries extends Model
     public static function delete($slug)
     {
     }
+
+    
 }

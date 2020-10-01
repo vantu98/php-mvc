@@ -59,7 +59,7 @@ class GalleriesController
                     $data = [
                         'id' => NULL,
                         'gt_id' => '1',
-                        'g_slug' => Config::BASE_URL."/".$path,
+                        'g_slug' => Config::BASE_URL . "/" . $path,
                         'g_name' => $file_name,
                     ];
 
@@ -69,6 +69,12 @@ class GalleriesController
         }
 
         echo json_encode($files_arr);
+        die;
+    }
+
+    public function getAllImgAjax()
+    {
+        echo json_encode(Galleries::all());
         die;
     }
 }

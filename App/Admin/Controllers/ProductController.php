@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Models\Categories;
 use App\Config;
 use Core\View;
 
@@ -18,6 +19,10 @@ class ProductController
 
     public function addNewProductView()
     {
-        View::renderTemplate('admin', 'pages/upload-product.html', ['title' => 'Add new Product', 'base_url' => Config::BASE_URL]);
+        View::renderTemplate('admin', 'pages/upload-product.html', [
+            'title' => 'Add new Product',
+            'base_url' => Config::BASE_URL,
+            'category' => Categories::all()
+        ]);
     }
 }
