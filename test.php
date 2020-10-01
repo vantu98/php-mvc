@@ -46,21 +46,29 @@ class Test extends Model
         $sql = "UPDATE categories SET c_name=:_name, c_desc=:_desc, c_slug=:_slug WHERE id=:_id";
         $db->prepare($sql)->execute($data);
     }
+
+    public static function uploadImgae($data)
+    {
+        $db = static::getDB();
+
+        $sql = "INSERT INTO galleries(id, gt_id, g_slug, g_name) VALUES (:id, :gt_id, :g_slug, :g_name)";
+
+        try {
+            $db->prepare($sql)->execute($data);
+            // $db->exec($sql);
+
+            
+        } catch (PDOException $e) {
+            echo $e->getMessage() . "\n " . $e->getLine() . "\n " . $e->getFile();
+        }
+    }
 }
 
-$id = 14;
 $data = [
-    '_name' => 'Test data',
-    '_desc' => 'This is test data category description',
-    '_slug' => 'test-data',
-    '_id' => 15,
+    'id' => NULL,
+    'gt_id' => '1',
+    'g_slug' => Config::BASE_URL.'/uploads/avatar_origin.jpg',
+    'g_name' => 'avatar_origin',
 ];
 
-// Test::add($data);
-try {
-    Test::updateByID($data);
-
-    echo "update success at id =" . $data['_id'];
-} catch (PDOException $th) {
-    echo $th->getMessage();
-}
+Test::uploadImgae($data);

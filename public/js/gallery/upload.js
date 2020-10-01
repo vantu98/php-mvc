@@ -20,15 +20,15 @@ $(document).ready(function () {
       contentType: false,
       processData: false,
       success: function (response) {
-        // for (var index = 0; index < response.length; index++) {
-        //   var src = response[index];
+        for (var index = 0; index < response.length; index++) {
+          var src = response[index];
 
-        //   // Add img element in <div id='preview'>
-        //   $("#galleries").append('<img src="' + src + '" alt="">');
+          // Add img element in <div id='preview'>
+          $("#galleries").append('<img src="' + src + '" alt="">');
 
-        //   console.log(src);
-        // }
-        console.log(response);
+          // console.log(src);
+        }
+        // console.log(response);
       },
     });
   });

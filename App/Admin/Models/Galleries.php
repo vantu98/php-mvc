@@ -20,15 +20,18 @@ class Galleries extends Model
     public static function addNew($data)
     {
         $db = static::DB();
-        foreach ($data as $item ) {
-            $sql = "INSERT INTO galleries (id, gt_id, g_slug, g_name) VALUES (NULL, 1, ".$item['slug'].", ".$item['name'].")";
 
-            $db->exec($sql);
+        $sql = "INSERT INTO galleries(id, gt_id, g_slug, g_name) VALUES (:id, :gt_id, :g_slug, :g_name)";
+
+        try {
+            $db->prepare($sql)->execute($data);
+            // $db->exec($sql);
+        } catch (PDOException $e) {
+            echo $e->getMessage() . "\n " . $e->getLine() . "\n " . $e->getFile();
         }
     }
 
     public static function delete($slug)
     {
-        
     }
 }

@@ -19,44 +19,49 @@ class GalleriesController
         View::renderTemplate('admin', 'pages/upload-image.html', ['title' => 'Upload New Image']);
     }
 
-    protected function postUploadImg()
+    public function postUploadImage()
     {
+        //response array
+        $response = [];
+
         // Count total files
-        $countfiles = count($_FILES['files']['name']);
+        $count_files = count($_FILES['files']['name']);
 
-        // Upload directory
-        $upload_location = "upload/";
+        // upload dỉrectory
+        $upload_dir = "uploads/";
 
-        // To store uploaded files path
-        $files_arr = array();
+        // Store uploaded files path
+        $files_arr = [];
 
-        // Loop all files
-        for ($index = 0; $index < $countfiles; $index++) {
-            // data
-            $data = [];
-
-            // File name
-            $filename = $_FILES['files']['name'][$index];
+        // Loop all files from form data
+        for ($i = 0; $i < $count_files; $i++) {
+            // Get file name
+            $file_name = $_FILES['files']['name'][$i];
             // Replace all special char to "-"
-            $filename = preg_replace('/[^a-zA-Z0-9_.]/', "-", $filename);
+            $file_name = preg_replace('/[^a-zA-Z0-9_.]/', "-", $file_name);
+            //Replace all whitespace to underscore
+            $file_name = str_replace(" ", "-", $file_name);
 
-            // Get extension
-            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+            // Get extension of image
+            $ext = pathinfo($file_name, PATHINFO_EXTENSION);
 
             // Valid image extension
-            $valid_ext = array("png", "jpeg", "jpg");
+            $valid_ext = ["png", "jpeg", "jpg"];
 
-            // Check extension
             if (in_array($ext, $valid_ext)) {
+                $path = $upload_dir . $file_name;
 
-                // File path
-                $path = $upload_location . $filename;
-
-                // Upload file
-                if (move_uploaded_file($_FILES['files']['tmp_name'][$index], $path)) {
+                if (move_uploaded_file($_FILES['files']['tmp_name'][$i], $path)) {
                     $files_arr[] = $path;
-                    $data['slug'] = $path;
-                    $data['name'] = $filename;
+
+                    // after upload image successfull
+                    // save image url to database
+                    $data = [
+                        'id' => NULL,
+                        'gt_id' => '1',
+                        'g_slug' => Config::BASE_URL."/".$path,
+                        'g_name' => $file_name,
+                    ];
 
                     Galleries::addNew($data);
                 }
