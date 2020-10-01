@@ -147,7 +147,7 @@
 
                     <label for="product-price" class="block text-gray-700 text-sm font-bold mb-2 mt-6">Product
                         Price</label>
-                    <input type="text" name="product-proce" id="p-price" placeholder="xxx.xxx"
+                    <input type="text" name="product-price" id="p-price" placeholder="xxx.xxx"
                         class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm"
                         required>
                 </div>
@@ -174,7 +174,8 @@
                     <div class="flex flex-col">
                         {% for item in category %}
                         <label class="inline-flex items-center mt-3">
-                            <input name="product-category" type="checkbox" class="form-checkbox h-5 w-5 text-yellow-600" value="{{ item.id }}">
+                            <input name="product-category" type="checkbox" class="form-checkbox h-5 w-5 text-yellow-600"
+                                value="{{ item.id }}">
                             <span class="ml-2 text-gray-700">{{ item.c_name }}</span>
                         </label>
                         {% endfor %}
@@ -182,7 +183,7 @@
                 </div>
             </div>
 
-            <button onclick="openModal()"
+            <button onclick="addProduct()"
                 class="bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 px-4 mt-6 rounded-lg">Add
                 Product</button>
         </div>
@@ -237,23 +238,69 @@
 {% block footerScript %}
 <script src="{{ base_url }}/public/js/product/add-new-product.js"></script>
 <script>
-    $("#p-name").on("change", function (e) {
+    function addProduct() {
+        
+
+        // get product infomation
+        pName = $("#p-name").val();
+        pSku = $("#p-sku").val();
+        pSlug = $("#p-slug").val();
+        pDesc = $("#p-desc").val();
+        pPrice = $("#p-price").val();
+
+        // get feature image
+        pFeatureImg = document.querySelector("#preview-feature-image img").id;
+        //check if no img was chose
+        if (pFeatureImg == undefined) {
+            pFeatureImg = 1;
+        }
+
+        // get product category
+        categoryList = document.querySelectorAll('input[name="product-category"]');
+        var pCategory = [];
+        // Check category
+        for (let index = 0; index < categoryList.length; index++) {
+            if(categoryList[index].checked){
+                pCategory.push(categoryList[index].value);
+            }
+        }
+
+        var productList = {
+            '_name': pName,
+            '_sku': pSku,
+            '_slug': pSlug,
+            '_desc': pDesc,
+            '_price': pPrice,
+            '_g_id': pFeatureImg
+        };
+
+        $.ajax({
+            url: "http://localhost/php_2/php-mvc/admin/product/postAddNewProduct",
+            type: "POST",
+            dataType: "json",
+            data: {
+                product: productList,
+                pInCat: pCategory
+            },
+            success: function(response){
+                console.log(response);
+            }
+        });
+    }
+
+    $("#p-sku").on("change", function (e) {
         e.preventDefault();
 
-        var pName = $("#p-name").val();
+        var slug = $("#p-sku").val();
 
         // remove special list
-        pName = removeVietnameseTones(pName);
+        slug = removeVietnameseTones(slug);
         //to lowercase
-        pName = pName.toLowerCase();
+        slug = slug.toLowerCase();
         //remove whitespace
-        pName = pName.replace(/\s/g, "-");
+        slug = slug.replace(/\s/g, "-");
 
-        console.log(pName);
-
-        // Open image modal
-        // Using AJAX to load image
-
+        $("#p-slug").val(slug);
     });
 
     // When clicked open modal btn

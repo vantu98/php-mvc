@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Model\Product;
 use App\Admin\Models\Categories;
 use App\Config;
 use Core\View;
@@ -24,5 +25,12 @@ class ProductController
             'base_url' => Config::BASE_URL,
             'category' => Categories::all()
         ]);
+    }
+
+    public function postAddNewProduct()
+    {
+        $data = $_POST['product'];
+
+        Product::addNewProduct($data);
     }
 }
