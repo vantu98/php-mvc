@@ -11,7 +11,8 @@ class ProductController
 {
     public function index()
     {
-        View::renderTemplate('Admin', 'pages/all-product.html', ['title' => 'All Products']);
+        $products = Product::all();
+        View::renderTemplate('Admin', 'pages/all-product.html', ['title' => 'All Products', 'products' => $products, 'base_url' => Config::BASE_URL]);
     }
     public function allProduct()
     {

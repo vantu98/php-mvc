@@ -78,6 +78,18 @@ class Test extends Model
             echo $e->getMessage();
         }
     }
+
+    public static function getAllProduct()
+    {
+
+
+        $db = static::getDB();
+        $sql = "SELECT p.id, p.p_name, p.p_sku, p.p_slug,c.c_name FROM product p INNER JOIN product__in_categories pic ON p.id = pic.p_id INNER JOIN categories c ON c.id = pic.c_id";
+
+        $stmt = $db->query($sql);
+
+        return json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+    }
 }
 
 $data = [
@@ -90,4 +102,4 @@ $data = [
     '_feature_img' => 1
 ];
 
-Test::addNewProduct($data);
+var_dump(Test::getAllProduct());

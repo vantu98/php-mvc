@@ -7,7 +7,17 @@ use Core\Model;
 use PDOException;
 
 class Product extends Model
-{
+{   
+    public static function all()
+    {
+        $db = static::DB();
+        $sql = "SELECT p.id, p.p_name, p.p_sku, p.p_slug, p.p_desc, p.p_price FROM product p";
+
+        $stmt = $db->query($sql);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function addNewProduct($data, $categoryList)
     {
         $db = static::DB();
