@@ -239,7 +239,7 @@
 <script src="{{ base_url }}/public/js/product/add-new-product.js"></script>
 <script>
     function addProduct() {
-        
+
 
         // get product infomation
         pName = $("#p-name").val();
@@ -260,18 +260,19 @@
         var pCategory = [];
         // Check category
         for (let index = 0; index < categoryList.length; index++) {
-            if(categoryList[index].checked){
+            if (categoryList[index].checked) {
                 pCategory.push(categoryList[index].value);
             }
         }
 
         var productList = {
+            
             '_name': pName,
             '_sku': pSku,
             '_slug': pSlug,
             '_desc': pDesc,
             '_price': pPrice,
-            '_g_id': pFeatureImg
+            '_feature_img': pFeatureImg
         };
 
         $.ajax({
@@ -282,7 +283,7 @@
                 product: productList,
                 pInCat: pCategory
             },
-            success: function(response){
+            success: function (response) {
                 console.log(response);
             }
         });

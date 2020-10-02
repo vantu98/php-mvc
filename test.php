@@ -57,18 +57,37 @@ class Test extends Model
             $db->prepare($sql)->execute($data);
             // $db->exec($sql);
 
-            
+
         } catch (PDOException $e) {
             echo $e->getMessage() . "\n " . $e->getLine() . "\n " . $e->getFile();
+        }
+    }
+
+    public static function addNewProduct($data)
+    {
+        $db = static::getDB();
+        $sql = "INSERT INTO product(id, p_name, p_sku, p_desc, p_price, p_slug, p_feature_img) VALUES(:_id, :_name, :_sku, :_desc, :_price, :_slug, :_feature_img)";
+
+        $stmt = $db->prepare($sql);
+
+        try {
+            $db->prepare($sql)->execute($data);
+
+            echo $db->lastInsertId();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
         }
     }
 }
 
 $data = [
-    'id' => NULL,
-    'gt_id' => '1',
-    'g_slug' => Config::BASE_URL.'/uploads/avatar_origin.jpg',
-    'g_name' => 'avatar_origin',
+    '_id' => NULL,
+    '_name' => 'Test Product',
+    '_sku' => 'T0011',
+    '_desc' => 'Test product part 1',
+    '_price' => 999999,
+    '_slug' => 't0011',
+    '_feature_img' => 1
 ];
 
-Test::uploadImgae($data);
+Test::addNewProduct($data);

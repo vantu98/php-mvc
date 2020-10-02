@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Model\Product;
+use App\Admin\Models\Product;
 use App\Admin\Models\Categories;
 use App\Config;
 use Core\View;
@@ -30,7 +30,9 @@ class ProductController
     public function postAddNewProduct()
     {
         $data = $_POST['product'];
+        $categoryList = $_POST['pInCat'];
 
-        Product::addNewProduct($data);
+        $sku = $data['_sku'];
+        Product::addNewProduct($data, $categoryList);
     }
 }
