@@ -1,0 +1,332 @@
+{% extends "master.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block headStylesheet %}
+<style>
+    .animated {
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+    }
+
+    .animated.faster {
+        -webkit-animation-duration: 500ms;
+        animation-duration: 500ms;
+    }
+
+    .fadeIn {
+        -webkit-animation-name: fadeIn;
+        animation-name: fadeIn;
+    }
+
+    .fadeOut {
+        -webkit-animation-name: fadeOut;
+        animation-name: fadeOut;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+        }
+
+        to {
+            opacity: 0;
+        }
+    }
+
+    /* Selected Image */
+    .selected-img {
+        border: 3px solid lightcoral;
+        padding: 2px;
+    }
+
+    .selecting-img {
+        border: 2px dashed lightcoral;
+    }
+
+    input[type="radio"] {
+        display: none;
+    }
+
+    #gallery label {
+        border: 1px solid #fff;
+        padding: 10px;
+        display: block;
+        position: relative;
+        margin: 10px;
+        cursor: pointer;
+    }
+
+    #gallery label:before {
+        background-color: white;
+        color: white;
+        content: " ";
+        display: block;
+        border-radius: 50%;
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        line-height: 28px;
+        transition-duration: 0.4s;
+        transform: scale(0);
+    }
+
+    #gallery label img {
+        height: 100px;
+        width: 100px;
+        transition-duration: 0.2s;
+        transform-origin: 50% 50%;
+    }
+
+    #gallery :checked+label:before {
+        /*content: "✓";*/
+        background-color: tomato;
+        transform: scale(1);
+    }
+
+    #gallery :checked+label img {
+        transform: scale(0.9);
+        /* box-shadow: 0 0 5px #333; */
+        z-index: -1;
+    }
+</style>
+{% endblock headStylesheet %}
+
+{% block content %}
+
+<main class="h-full overflow-y-auto">
+    <div class="container px-6 mx-auto grid">
+        <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+            {{ title }}
+        </h2>
+
+        <div class="w-full overflow-hidden rounded-lg">
+            <div class="grid grid-cols-3 gap-6">
+                {# product info #}
+                <div class="w-full rounded-lg p-2">
+
+                    <label for="product-name" class="block text-gray-700 text-sm font-bold mb-2 mt-6">Product
+                        Name</label>
+                    <input type="text" name="product-name" id="p-name" value="{{ selected_product.p_name }}" placeholder="Example Product"
+                        class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm"
+                        required>
+                        
+
+                    <label for="product-sku" class="block text-gray-700 text-sm font-bold mb-2 mt-6">Product
+                        SKU</label>
+                    <input type="text" name="product-sku" id="p-sku" placeholder="PT001" value="{{ selected_product.p_sku }}"
+                        class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm"
+                        required>
+
+                    <label for="product-slug" class="block text-gray-700 text-sm font-bold mb-2 mt-6">Product
+                        Slug</label>
+                    <input type="text" name="product-slug" id="p-slug" placeholder="pt001" value="{{ selected_product.p_slug }}"
+                        class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm"
+                        required>
+                    {# <p class="text-blue-400 hover:text-blue-500">slug:<span id="dump-slug"></span></p> #}
+                    <label for="product-desc" class="block text-gray-700 text-sm font-bold mb-2 mt-6">Product
+                        Description</label>
+                    <textarea name="product-desc" id="p-desc" cols="full" rows="10"
+                        class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm"
+                        placeholder="Example description">
+                    {{ selected_product.p_desc }}</textarea>
+
+                    <label for="product-price" class="block text-gray-700 text-sm font-bold mb-2 mt-6">Product
+                        Price</label>
+                    <input type="text" name="product-price" id="p-price" placeholder="xxx.xxx" value="{{ selected_product.p_price }}"
+                        class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm"
+                        required>
+                </div>
+
+                {# image info #}
+                <div class="w-full rounded-lg p-2">
+                    {# Choose Feature Image #}
+                    <h3 class="block text-gray-700 text-sm font-bold mb-2 mt-6">Feature Image</h3>
+
+                    <!--Preview Feature image-->
+                    <div id="preview-feature-image" class="mb-4 rounded-lg">
+                        <img src="{{ selected_product.g_slug }}" alt="">
+                    </div>
+
+                    <div id="open-gallery-modal" onclick="openModal()"
+                        class="w-full px-6 py-4 bg-gray-300 hover:bg-gray-400 rounded-lg text-center">Add Feature Image
+                    </div>
+                </div>
+
+                <!-- product category -->
+                <div class="w-full p-2">
+                    <h3 class="block text-gray-700 text-sm font-bold mb-2 mt-6">Product Category</h3>
+
+                    <div class="flex flex-col">
+                        {% for item in category %}
+                        <label class="inline-flex items-center mt-3">
+                            <input name="product-category" type="checkbox" class="form-checkbox h-5 w-5 text-yellow-600"
+                                value="{{ item.id }}">
+                            <span class="ml-2 text-gray-700">{{ item.c_name }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="addProduct()"
+                class="bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 px-4 mt-6 rounded-lg">Add
+                Product</button>
+        </div>
+    </div>
+</main>
+
+{# MODAL #}
+<div class="modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
+    style="background: rgba(0,0,0,.7);">
+    <div
+        class="border border-teal-500 shadow-lg modal-container bg-white w-2/3 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <div class="modal-content py-4 text-left px-6">
+            <!--Title-->
+            <div class="flex justify-between items-center pb-3">
+                <p class="text-2xl font-bold">Image Gallery</p>
+                <div class="modal-close cursor-pointer z-50">
+                    <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                        viewBox="0 0 18 18">
+                        <path
+                            d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+            <!--Body-->
+            <div class="my-5">
+                {# Load content by ajax #}
+                <div class="selectable grid grid-cols-5 gap-4 h-64 overflow-scroll" id="gallery">
+                </div>
+            </div>
+            <!--Footer-->
+            <div class="flex justify-end pt-2">
+                <button
+                    class="focus:outline-none modal-close px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Cancel</button>
+                <button onclick="setFeatureImg()"
+                    class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<template id="image-gallery-item">
+    <div class="">
+        <input type="radio" id="" name="feature-img" />
+        <label for="">
+            <img src="" />
+        </label>
+    </div>
+</template>
+{% endblock content %}
+
+{% block footerScript %}
+<script>
+
+    $("#p-sku").on("change", function (e) {
+        e.preventDefault();
+
+        var slug = $("#p-sku").val();
+
+        // remove special list
+        slug = removeVietnameseTones(slug);
+        //to lowercase
+        slug = slug.toLowerCase();
+        //remove whitespace
+        slug = slug.replace(/\s/g, "-");
+
+        $("#p-slug").val(slug);
+    });
+
+    $('#open-gallery-modal').click(function (e) {
+        // get modal gallery
+        var gallery = document.getElementById("gallery");
+
+        e.preventDefault();
+
+        $.ajax({
+            url: "{{ base_url }}/admin/galleries/getAllImgAjax",
+            type: "GET",
+            success: function (response) {
+                var img = JSON.parse(response);
+
+                var total = img.length;
+
+                var data = JSON.parse(response);
+
+                // Render template into modal #gallery
+                if ('content' in document.createElement('template')) {
+                    var template = document.getElementById("image-gallery-item");
+
+                    for (let index = 0; index < response.length; index++) {
+                        var clone = template.content.cloneNode(true);
+
+                        var radio = clone.querySelector('input[type="radio"]');
+                        radio.setAttribute("id", data[index]['id']);
+
+                        var img = clone.querySelector("img");
+                        img.setAttribute("src", data[index]['g_slug']);
+                        img.setAttribute("id", data[index]['id']);
+
+                        var label = clone.querySelector("label");
+                        label.setAttribute("for", data[index]['id']);
+
+                        gallery.appendChild(clone);
+                    }
+                } else {
+                    // Use traditional way to render
+                }
+
+                console.log(response);
+            }
+        });
+    });
+
+    $(function () {
+        $(".selectable").selectable({
+            selected: function () {
+                var selectedItemList = $("#selected-item-list").empty();
+                $(".selectable img").each(function (index) {
+                    if ($(this).hasClass("ui-selected")) {
+                        selectedItemList.append((index + 1) + ", ");
+                    }
+                });
+            }
+        });
+    });
+
+    function setFeatureImg() {
+        var listImg = document.querySelectorAll('input[name="feature-img"]');
+
+        for (let index = 0; index < listImg.length; index++) {
+            if (listImg[index].checked) {
+                var id = listImg[index].id;
+                var src = listImg[index].nextElementSibling.querySelector("img").src;
+
+                document.querySelector("#preview-feature-image img").setAttribute("src", src);
+                document.querySelector("#preview-feature-image img").setAttribute("id", id);
+
+                $("#open-gallery-modal").text("Change Feature Image");
+            }
+        }
+    }
+</script>
+{% endblock footerScript %}

@@ -90,6 +90,20 @@ class Test extends Model
 
         return json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
     }
+
+    public static function getSingle($p_id)
+    {
+        $db = static::getDB();
+        $sql = "SELECT * FROM product WHERE id = $p_id";
+
+        try {
+            $stmt = $db->query($sql);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
 $data = [
@@ -102,4 +116,10 @@ $data = [
     '_feature_img' => 1
 ];
 
-var_dump(Test::getAllProduct());
+$result = Test::getSingle(6);
+
+// echo $result[0]['p_desc'];
+
+?>
+
+<textarea name="" id="" cols="30" rows="10" value="abc"></textarea>

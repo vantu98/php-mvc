@@ -36,4 +36,17 @@ class ProductController
         $sku = $data['_sku'];
         Product::addNewProduct($data, $categoryList);
     }
+
+    public function editProductView($params)
+    {
+        $product = Product::getSingle($params);
+        
+        View::renderTemplate('admin', 'pages/edit-product.html', [
+            'title' => 'Edit Product',
+            'base_url' => Config::BASE_URL,
+            'category' => Categories::all(),
+            'checked_category' => Product::getProductInCat($params),
+            'selected_product' => $product[0]
+        ]);
+    }
 }

@@ -7,11 +7,11 @@ use Core\Model;
 use PDOException;
 
 class Product extends Model
-{   
+{
     public static function all()
     {
         $db = static::DB();
-        $sql = "SELECT p.id, p.p_name, p.p_sku, p.p_slug, p.p_desc, p.p_price FROM product p";
+        $sql = "SELECT p.id, p.p_name, p.p_sku, p.p_slug, p.p_desc, p.p_price FROM product p ORDER BY id desc";
 
         $stmt = $db->query($sql);
 
@@ -70,5 +70,33 @@ class Product extends Model
         }
 
         return $stmt;
+    }
+
+    public static function getSingle($p_id)
+    {
+        $db = static::DB();
+        $sql = "SELECT p.id, p.p_name, p.p_sku, p.p_desc, p.p_slug, p.p_price, g.g_slug FROM product p INNER JOIN galleries g ON p.p_feature_img = g.id WHERE p.id = $p_id";
+
+        try {
+            $stmt = $db->query($sql);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getProductInCat($p_id)
+    {
+        $db = static::DB();
+        $sql = "SELECT c.id, c.c_name FROM categories c INNER JOIN product__in_categories pic on c.id = pic.c_id INNER JOIN product p ON p.id = pic.p_id WHERE p.id = $p_id";
+
+        try {
+            $stmt = $db->query($sql);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

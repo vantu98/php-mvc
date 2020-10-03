@@ -45,11 +45,11 @@
                                     <td class="px-4 py-3 text-sm">
                                         {{ item.p_slug }}
                                     </td>
-                                    
+
                                     <td class="px-4 py-3 text-sm">
                                         <a href="{{ base_url }}/shop/{{ item.p_slug }}"
                                             class="text-blue-400 hover:text-blue-500 hover:underline px-2">View</a>
-                                        <a href="{{ base_url }}/admin/edit-product/{{ item.id }}"
+                                        <a href="{{ base_url }}/admin/product/edit-product/{{ item.id }}"
                                             class="text-teal-400 hover:text-teal-500 hover:underline px-2">Edit</a>
                                         <button
                                             class="deleteCategoryBtn text-red-400 hover:text-red-500 hover:underline px-2"
@@ -141,3 +141,7 @@
     </div>
 </main>
 {% endblock %}
+
+{% block footerScript %}
+
+{% endblock footerScript %}
