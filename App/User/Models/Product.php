@@ -31,7 +31,7 @@ class Product extends Model
     {
         $db = static::DB();
 
-        $sql = "SELECT p.p_name, p.p_sku, p.p_desc, p.p_price, g.g_slug FROM product p INNER JOIN galleries g ON p.p_feature_img = g.id WHERE p.id = $id";
+        $sql = "SELECT p.id, p.p_name, p.p_sku, p.p_desc, p.p_price, g.g_slug FROM product p INNER JOIN galleries g ON p.p_feature_img = g.id WHERE p.id = $id";
 
         try {
             $stmt = $db->query($sql);

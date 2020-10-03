@@ -16,13 +16,13 @@ class ProductController
 
     public function detail($id)
     {
-
-        $title = 'Detail';
+        $product = Product::getSingleProduct($id)[0];
+        $title = $product['p_name'];
 
         View::renderTemplate('user', 'pages/detail-product.html', [
             'title' => $title,
             'base_url' => Config::BASE_URL,
-            'product' => Product::getSingleProduct($id)[0],
+            'product' => $product,
             'pic' => Category::getCatOfProduct($id)
         
         ]);
