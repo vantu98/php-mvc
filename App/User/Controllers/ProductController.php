@@ -16,7 +16,8 @@ class ProductController
 
     public function detail($id)
     {
-        $product = Product::getSingleProduct($id)[0];
+        $product = Product::getSingleProduct($id);
+        $product = array_shift($product);
         $title = $product['p_name'];
 
         View::renderTemplate('user', 'pages/detail-product.html', [

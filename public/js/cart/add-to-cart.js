@@ -1,27 +1,52 @@
-$(document).ready(function () {
-  $("#add-to-cart-btn").on("click", function () {
-    var cart = [];
-    // save to localStorage
-    if (typeof Storage !== "undefined") {
-      if ($("#sizes option:selected").val() == "") {
-        alert("Mời chọn size");
-      } else {
-        console.log($("#sizes option:selected").val());
-      }
-    } else {
-      console.log("Your browser doesn't support local storage");
-    }
-  });
+function checkLS(name) {
+  if (localStorage.getItem(name) === null) {
+    return [];
+  } else {
+    return JSON.parse(localStorage.getItem(name));
+  }
+}
 
-  function getLS(name) {
-    if (typeof Storage !== "undefined") {
-        // Check if exist localstorage 
+function addToLS() {
+  var cart = checkLS("cart");
 
-    } else {
-      console.log("No web local storage support");
-      return [];
-    }
+  //check size
+  var size = document.getElementById("sizes");
+  var choose = size.options[size.selectedIndex].value;
+  var id = document.getElementById("id").innerHTML;
+
+  if (choose == "") {
+    alert("Xin chọn size");
   }
 
-  console.log(document.getElementById("name").innerHTML);
-});
+  // Check amount
+  var amount = document.getElementById("amount").value;
+
+  if (amount == "") {
+    alert("Mời chọn số lượng");
+  }
+
+  var product = {
+    name: document.getElementById("name").innerHTML,
+    sku: document.getElementById("sku").innerHTML,
+    fImg: document.getElementById("feature_img").innerHTML,
+    price: document.getElementById("price").innerHTML,
+    id: id,
+    size: choose,
+    amount: amount,
+  };
+
+  if (cart != null) {
+    cart.forEach((item) => {
+      if (item.id == id) {
+        var a = parseInt(item.amount);
+        item.amount = a += parseInt(amount);
+      }else{
+          cart.push(product);
+      }
+    });
+  } else {
+    cart.push(product);
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+}

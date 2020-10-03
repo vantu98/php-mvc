@@ -21,10 +21,26 @@ class Test extends Model
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public static function getSingleProduct($id)
+    {
+        $db = static::DB();
+
+        $sql = "SELECT p.id, p.p_name, p.p_sku, p.p_desc, p.p_price, g.g_slug FROM product p INNER JOIN galleries g ON p.p_feature_img = g.id WHERE p.id = $id";
+
+        try {
+            $stmt = $db->query($sql);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
-$product = Test::getProductBySKU($_GET['sku']);
+$product = Test::getSingleProduct(11);
+$product = array_shift($product);
+var_dump($product['p_name']);
 
-var_dump($product);
+// echo $product[0]['p_name'];
 
-echo $product[0]['p_name'];

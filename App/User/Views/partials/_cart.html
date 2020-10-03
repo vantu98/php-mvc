@@ -1,5 +1,10 @@
-<div class="fixed inset-0 overflow-hidden z-20" x-show="isCartOpen" >
-    <div class="absolute inset-0 overflow-hidden" x-transition:leave="transform transition ease-in-out duration-200 sm:duration-700" x-transition:leave-start="translate-x-0", x-transition:leave-end="translate-x-full" x-transition:enter="transform transition ease-in-out duration-200 sm:duration-700" x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0" @click.away="closeCart" @keydown.escape="closeCart">
+<div class="fixed inset-0 overflow-hidden z-20" x-show="isCartOpen">
+    <div class="absolute inset-0 overflow-hidden"
+        x-transition:leave="transform transition ease-in-out duration-200 sm:duration-700"
+        x-transition:leave-start="translate-x-0" , x-transition:leave-end="translate-x-full"
+        x-transition:enter="transform transition ease-in-out duration-200 sm:duration-700"
+        x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0" @click.away="closeCart"
+        @keydown.escape="closeCart">
         <!--
         Background overlay, show/hide based on slide-over state.
   
@@ -37,8 +42,8 @@
                     <button aria-label="Close panel"
                         class="text-gray-300 hover:text-white transition ease-in-out duration-150">
                         <!-- Heroicon name: x -->
-                        <svg @click="closeCart" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
+                        <svg @click="closeCart" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -50,11 +55,9 @@
                             Giỏ hàng
                         </h2>
                     </header>
-                    <div class="relative flex-1 px-4 sm:px-6">
+                    <div class="relative flex-1 px-4 sm:px-6 overflow-scroll" id="cart-list">
                         <!-- Replace with your content -->
-                        <div class="absolute inset-0 px-4 sm:px-6">
-                            <div class="h-full border-2 border-dashed border-gray-200"></div>
-                        </div>
+                        
                         <!-- /End replace -->
                     </div>
                 </div>
@@ -62,3 +65,21 @@
         </section>
     </div>
 </div>
+
+<template id="cart-item">
+    <div class="border mb-4">
+        <div class="grid grid-cols-3 gap-4">
+            <div class="w-full">
+                <img src="" alt=""
+                    class="w-full h-full object-fit" id="cart-item__img">
+            </div>
+
+            <div class="col-span-2 py-4">
+                <p class="font-semibold text-black text-lg" id="cart-item__name"></p>
+                <p id="cart-item__sku"></p>
+                <p id="cart-item__price"></p>
+                <p class="font-semibold text-orange-500 text-lg" id="cart-item__total-price"></p>
+            </div>
+        </div>
+    </div>
+</template>
