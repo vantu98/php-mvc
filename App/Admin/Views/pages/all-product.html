@@ -53,7 +53,8 @@
                                             class="text-teal-400 hover:text-teal-500 hover:underline px-2">Edit</a>
                                         <button
                                             class="deleteCategoryBtn text-red-400 hover:text-red-500 hover:underline px-2"
-                                            data-id="{{ item.id }}">Delete</button>
+                                            data-id="{{ item.id }}"
+                                            onclick="deleteProduct({{ item.id }})">Delete</button>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -143,5 +144,23 @@
 {% endblock %}
 
 {% block footerScript %}
+<script>
+    function deleteProduct(id) {
+        var isDelete = confirm("Do you wanna delate a product: " + id);
 
+        if (isDelete) {
+            $.ajax({
+                url: "{{ base_url }}/admin/product/postDeleteProduct/" + id,
+                type: "POST",
+                dataType: "json",
+                data: {
+
+                },
+                success: function(response){
+                    alert(response);
+                }
+            });
+        }
+    }
+</script>
 {% endblock footerScript %}

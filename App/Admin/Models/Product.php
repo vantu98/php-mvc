@@ -105,7 +105,19 @@ class Product extends Model
         $db = static::DB();
         $sql = "UPDATE product SET p_name=:_name, p_sku=:_sku, p_desc=:_desc, p_price=:_price, p_slug=:_slug, p_feature_img=:_feature_img WHERE id=$p_id";
 
-        $stmt=$db->prepare($sql);
+        $stmt = $db->prepare($sql);
         $stmt->execute($data);
+    }
+
+    public static function deleteSingleProductByID($p_id)
+    {
+        $db = static::DB();
+        $sql = "DELETE FROM product WHERE id = $p_id";
+
+        try {
+            $db->exec($sql);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
 }

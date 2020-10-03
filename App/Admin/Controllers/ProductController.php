@@ -76,4 +76,12 @@ class ProductController
 
         Product::updateSingleProductById($p_id, $productList);
     }
+
+    public function postDeleteProduct($p_id)
+    {
+        
+        Product::deleteSingleProductByID($p_id);
+
+        echo "delete product successfully";
+    }
 }
