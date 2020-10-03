@@ -104,22 +104,62 @@ class Test extends Model
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public static function getSingleProduct($p_id)
+    {
+        $db = static::getDB();
+        $sql = "SELECT p.id, p.p_name, p.p_sku, p.p_desc, p.p_slug, p.p_price, g.g_slug FROM product p INNER JOIN galleries g ON p.p_feature_img = g.id WHERE p.id = $p_id";
+
+        try {
+            $stmt = $db->query($sql);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getProductInCat($p_id)
+    {
+        $db = static::getDB();
+        $sql = "SELECT c.id FROM categories c INNER JOIN product__in_categories pic on c.id = pic.c_id INNER JOIN product p ON p.id = pic.p_id WHERE p.id = $p_id";
+
+        try {
+            $stmt = $db->query($sql);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function allCat()
+    {
+        $db = static::getDB();
+
+        $stmt = $db->query('SELECT * FROM categories');
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
-$data = [
-    '_id' => NULL,
-    '_name' => 'Test Product',
-    '_sku' => 'T0011',
-    '_desc' => 'Test product part 1',
-    '_price' => 999999,
-    '_slug' => 't0011',
-    '_feature_img' => 1
-];
+$allCat = Test::allCat();
+$productInCat = Test::getProductInCat(6);
 
-$result = Test::getSingle(6);
+$processed_array = [];
 
-// echo $result[0]['p_desc'];
+foreach ($productInCat as $value) {
+    $processed_array[] = $value['id'];
+}
 
-?>
+var_dump($processed_array);
 
-<textarea name="" id="" cols="30" rows="10" value="abc"></textarea>
+for ($i = 0; $i < count($allCat); $i++) {
+    if (in_array($allCat[$i]['id'], $processed_array)) {
+        $allCat[$i]['is_check'] = true;
+    } else {
+        $allCat[$i]['is_check'] = false;
+    }
+}
+
+var_dump($allCat);

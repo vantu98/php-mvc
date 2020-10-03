@@ -110,7 +110,6 @@
 {% endblock headStylesheet %}
 
 {% block content %}
-
 <main class="h-full overflow-y-auto">
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
@@ -124,20 +123,21 @@
 
                     <label for="product-name" class="block text-gray-700 text-sm font-bold mb-2 mt-6">Product
                         Name</label>
-                    <input type="text" name="product-name" id="p-name" value="{{ selected_product.p_name }}" placeholder="Example Product"
+                    <input type="text" name="product-name" id="p-name" value="{{ product.p_name }}"
+                        placeholder="Example Product"
                         class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm"
                         required>
-                        
+
 
                     <label for="product-sku" class="block text-gray-700 text-sm font-bold mb-2 mt-6">Product
                         SKU</label>
-                    <input type="text" name="product-sku" id="p-sku" placeholder="PT001" value="{{ selected_product.p_sku }}"
+                    <input type="text" name="product-sku" id="p-sku" placeholder="PT001" value="{{ product.p_sku }}"
                         class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm"
                         required>
 
                     <label for="product-slug" class="block text-gray-700 text-sm font-bold mb-2 mt-6">Product
                         Slug</label>
-                    <input type="text" name="product-slug" id="p-slug" placeholder="pt001" value="{{ selected_product.p_slug }}"
+                    <input type="text" name="product-slug" id="p-slug" placeholder="pt001" value="{{ product.p_slug }}"
                         class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm"
                         required>
                     {# <p class="text-blue-400 hover:text-blue-500">slug:<span id="dump-slug"></span></p> #}
@@ -146,11 +146,12 @@
                     <textarea name="product-desc" id="p-desc" cols="full" rows="10"
                         class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm"
                         placeholder="Example description">
-                    {{ selected_product.p_desc }}</textarea>
+                    {{ product.p_desc }}</textarea>
 
                     <label for="product-price" class="block text-gray-700 text-sm font-bold mb-2 mt-6">Product
                         Price</label>
-                    <input type="text" name="product-price" id="p-price" placeholder="xxx.xxx" value="{{ selected_product.p_price }}"
+                    <input type="text" name="product-price" id="p-price" placeholder="xxx.xxx"
+                        value="{{ product.p_price }}"
                         class="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight text-sm"
                         required>
                 </div>
@@ -162,7 +163,7 @@
 
                     <!--Preview Feature image-->
                     <div id="preview-feature-image" class="mb-4 rounded-lg">
-                        <img src="{{ selected_product.g_slug }}" alt="">
+                        <img src="{{ product.g_slug }}" alt="" id="{{ product.g_id }}">
                     </div>
 
                     <div id="open-gallery-modal" onclick="openModal()"
@@ -176,18 +177,26 @@
 
                     <div class="flex flex-col">
                         {% for item in category %}
+                        {% if item.is_check == true %}
+                        <label class="inline-flex items-center mt-3">
+                            <input name="product-category" type="checkbox" class="form-checkbox h-5 w-5 text-yellow-600"
+                                value="{{ item.id }}" checked>
+                            <span class="ml-2 text-gray-700">{{ item.c_name }}</span>
+                        </label>
+                        {% else %}
                         <label class="inline-flex items-center mt-3">
                             <input name="product-category" type="checkbox" class="form-checkbox h-5 w-5 text-yellow-600"
                                 value="{{ item.id }}">
                             <span class="ml-2 text-gray-700">{{ item.c_name }}</span>
                         </label>
+                        {% endif %}
                         {% endfor %}
                     </div>
                 </div>
             </div>
 
-            <button onclick="addProduct()"
-                class="bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 px-4 mt-6 rounded-lg">Add
+            <button onclick="updateProduct()"
+                class="bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 px-4 mt-6 rounded-lg">Update
                 Product</button>
         </div>
     </div>
@@ -240,21 +249,53 @@
 
 {% block footerScript %}
 <script>
+    function updateProduct() {
+        // get product infomation
+        pName = $("#p-name").val();
+        pSku = $("#p-sku").val();
+        pSlug = $("#p-slug").val();
+        pDesc = $("#p-desc").val();
+        pPrice = $("#p-price").val();
 
-    $("#p-sku").on("change", function (e) {
-        e.preventDefault();
+        // get feature image
+        pFeatureImg = document.querySelector("#preview-feature-image img").id;
+        //check if no img was chose
+        if (pFeatureImg == undefined) {
+            pFeatureImg = 1;
+        }
 
-        var slug = $("#p-sku").val();
+        // get product category
+        categoryList = document.querySelectorAll('input[name="product-category"]');
+        var pCategory = [];
+        // Check category
+        for (let index = 0; index < categoryList.length; index++) {
+            if (categoryList[index].checked) {
+                pCategory.push(categoryList[index].value);
+            }
+        }
 
-        // remove special list
-        slug = removeVietnameseTones(slug);
-        //to lowercase
-        slug = slug.toLowerCase();
-        //remove whitespace
-        slug = slug.replace(/\s/g, "-");
+        var productList = {
+            '_name': pName,
+            '_sku': pSku,
+            '_slug': pSlug,
+            '_desc': pDesc,
+            '_price': pPrice,
+            '_feature_img': pFeatureImg
+        };
 
-        $("#p-slug").val(slug);
-    });
+        $.ajax({
+            url: "http://localhost/php_2/php-mvc/admin/product/postUpdateProduct/{{ product.id }}",
+            type: "POST",
+            dataType: "json",
+            data: {
+                product: productList,
+                pInCat: pCategory
+            },
+            success: function (response) {
+                console.log(response);
+            }
+        });
+    }
 
     $('#open-gallery-modal').click(function (e) {
         // get modal gallery

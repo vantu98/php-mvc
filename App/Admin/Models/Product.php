@@ -75,7 +75,7 @@ class Product extends Model
     public static function getSingle($p_id)
     {
         $db = static::DB();
-        $sql = "SELECT p.id, p.p_name, p.p_sku, p.p_desc, p.p_slug, p.p_price, g.g_slug FROM product p INNER JOIN galleries g ON p.p_feature_img = g.id WHERE p.id = $p_id";
+        $sql = "SELECT p.id, p.p_name, p.p_sku, p.p_desc, p.p_slug, p.p_price, g.g_slug, g.id as g_id FROM product p INNER JOIN galleries g ON p.p_feature_img = g.id WHERE p.id = $p_id";
 
         try {
             $stmt = $db->query($sql);
@@ -98,5 +98,14 @@ class Product extends Model
         }
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function updateSingleProductById($p_id, $data)
+    {
+        $db = static::DB();
+        $sql = "UPDATE product SET p_name=:_name, p_sku=:_sku, p_desc=:_desc, p_price=:_price, p_slug=:_slug, p_feature_img=:_feature_img WHERE id=$p_id";
+
+        $stmt=$db->prepare($sql);
+        $stmt->execute($data);
     }
 }

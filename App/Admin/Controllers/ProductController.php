@@ -40,13 +40,40 @@ class ProductController
     public function editProductView($params)
     {
         $product = Product::getSingle($params);
-        
+        $allCategories = Categories::all();
+        $productInCategory = Product::getProductInCat($params);
+
+        /**
+         * Process product in category
+         * 
+         * @return @array 
+         */
+        $processed_pic = [];
+        foreach ($productInCategory as $item) {
+            $processed_pic[] = $item['id'];
+        }
+
+        for ($i = 0; $i < count($allCategories); $i++) {
+            if (in_array($allCategories[$i]['id'], $processed_pic)) {
+                $allCategories[$i]['is_check'] = true;
+            } else {
+                $allCategories[$i]['is_check'] = false;
+            }
+        }
+
+
         View::renderTemplate('admin', 'pages/edit-product.html', [
             'title' => 'Edit Product',
+            'product' => $product[0],
             'base_url' => Config::BASE_URL,
-            'category' => Categories::all(),
-            'checked_category' => Product::getProductInCat($params),
-            'selected_product' => $product[0]
+            'category' => $allCategories
         ]);
+    }
+
+    public function postUpdateProduct($p_id)
+    {
+        $productList = $_POST['product'];
+
+        Product::updateSingleProductById($p_id, $productList);
     }
 }
