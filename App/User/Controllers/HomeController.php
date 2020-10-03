@@ -2,9 +2,20 @@
 
 namespace App\User\Controllers;
 
-class HomeController{
+use App\Config;
+use App\User\Models\Category;
+use App\User\Models\Product;
+use Core\View;
+
+class HomeController
+{
     public function index()
     {
-        echo "Hello from index User";
+        View::renderTemplate('user', 'pages/home.html', [
+            'title' => 'Home',
+            'base_url' => Config::BASE_URL,
+            'product' => Product::getLimitProduct(8),
+            'category' => Category::getLimitCategory(3),
+        ]);
     }
 }
