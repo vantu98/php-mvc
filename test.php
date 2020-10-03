@@ -23,7 +23,7 @@ class Test extends Model
     }
 }
 
-$product = Test::getProductBySKU('a6t003');
+$product = Test::getProductBySKU($_GET['sku']);
 
 var_dump($product);
 

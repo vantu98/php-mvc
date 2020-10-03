@@ -14,14 +14,17 @@ class ProductController
 
     }
 
-    public function detail($p_sku)
+    public function detail($id)
     {
-        $singleProduct = Product::getSingleProduct($p_sku);
+
         $title = 'Detail';
+
         View::renderTemplate('user', 'pages/detail-product.html', [
             'title' => $title,
             'base_url' => Config::BASE_URL,
-            'product' => Product::getSingleProduct($p_sku),
+            'product' => Product::getSingleProduct($id)[0],
+            'pic' => Category::getCatOfProduct($id)
+        
         ]);
     }
 }

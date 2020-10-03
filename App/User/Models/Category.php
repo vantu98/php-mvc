@@ -26,4 +26,19 @@ class Category extends Model
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public static function getCatOfProduct($id)
+    {
+        $db = static::DB();
+
+        $sql = "SELECT c.id, c.c_name from categories c INNER JOIN product__in_categories pic ON c.id = pic.c_id WHERE pic.p_id = $id";
+
+        try {
+            $stmt = $db->query($sql);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
