@@ -1,5 +1,5 @@
-<div class="fixed inset-0 overflow-hidden z-20" x-show="isCartOpen">
-    <div class="absolute inset-0 overflow-hidden"
+<template class="fixed inset-0 z-20" x-show="isCartOpen">
+    <div class="absolute inset-0"
         x-transition:leave="transform transition ease-in-out duration-200 sm:duration-700"
         x-transition:leave-start="translate-x-0" , x-transition:leave-end="translate-x-full"
         x-transition:enter="transform transition ease-in-out duration-200 sm:duration-700"
@@ -55,7 +55,7 @@
                             Giỏ hàng
                         </h2>
                     </header>
-                    <div class="relative flex-1 px-4 sm:px-6 overflow-scroll" id="cart-list">
+                    <div class="relative flex-1 px-4 sm:px-6 overflow-scroll" id="cartList">
                         <!-- Replace with your content -->
                         
                         <!-- /End replace -->
@@ -64,22 +64,5 @@
             </div>
         </section>
     </div>
-</div>
-
-<template id="cart-item">
-    <div class="border mb-4">
-        <div class="grid grid-cols-3 gap-4">
-            <div class="w-full">
-                <img src="" alt=""
-                    class="w-full h-full object-fit" id="cart-item__img">
-            </div>
-
-            <div class="col-span-2 py-4">
-                <p class="font-semibold text-black text-lg" id="cart-item__name"></p>
-                <p id="cart-item__sku"></p>
-                <p id="cart-item__price"></p>
-                <p class="font-semibold text-orange-500 text-lg" id="cart-item__total-price"></p>
-            </div>
-        </div>
-    </div>
 </template>
+
