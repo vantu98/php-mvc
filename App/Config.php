@@ -41,4 +41,12 @@ class Config{
      * @var string
      */
     const BASE_URL = "http://localhost/php_2/php-mvc";
+
+    /**
+     * Cookies expire
+     * cookies'll be expired after 1 week (7 days)
+     * 
+     * @var number
+     */
+    const COOKIES_EXPIRE = 86400;
 }
