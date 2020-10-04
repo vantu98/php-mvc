@@ -8,7 +8,9 @@ Loading 99%
 How to use?
 ---
 
-First import `database.sql` to your local database
+First, run **composer undate** and **npm install** to install require lib for project
+
+Then import `database.sql` to your local database
 
 Then, Config them in `App/Config.php`
 
@@ -48,3 +50,6 @@ Then, Config them in `App/Config.php`
 
 
 Done!
+
+About Project 
+---
