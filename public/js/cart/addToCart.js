@@ -35,55 +35,56 @@ function addToLS() {
     return alert("Mời chọn sizes");
   }
 
-  var quatity = document.getElementById("amount").value;
-  if (quatity == "") {
+  var amount = document.getElementById("amount").value;
+  if (amount == "") {
     return alert("Bạn muốn mua bao nhiêu đôi?");
   }
 
   // check cart localStorage
   if (cart == "") {
     var product = getProductInfo();
-    product.amount = quatity;
-    product.selectedSize = selectedSize;
+    product.amount = amount;
+    product.size = selectedSize;
 
     cart.push(product);
 
-    // localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("cart", JSON.stringify(cart));
 
     console.log("add first product successfully");
-    // return;
+    return;
   } else {
     var id = document.querySelector("#secret #id").innerHTML;
-    cart.forEach((item) => {
-      if (id == item.id) {
-        amount = parseInt(item.amount) + parseInt(quatity);
-        item.amount = amount;
 
-        console.log("Update successfully");
+    var pos = -1;
 
-        // return;
-      } else {
-        var product = getProductInfo();
-        product.amount = quatity;
-        product.selectedSize = selectedSize;
+    for (let index = 0; index < cart.length; index++) {
+      const item = cart[index];
 
-        cart.push(product);
-
-        // localStorage.setItem("cart", JSON.stringify(cart));
-
-        console.log("add new product successfully");
-
-        // return;
+      if (item.id == id) {
+        pos = index;
+        break;
       }
-    });
+    }
+
+    if (pos > -1) {
+      cart[pos].amount = parseInt(cart[pos].amount) + parseInt(amount);
+
+      console.log(cart);
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      return;
+    } else {
+      var product = getProductInfo();
+      product.amount = amount;
+      product.size = selectedSize;
+
+      cart.push(product);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      console.log("add new product successfully");
+    }
   }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-
-  console.log("success");
-
   console.log(localStorage.getItem("cart"));
 
   return;
 }
-

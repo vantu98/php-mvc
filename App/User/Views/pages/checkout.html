@@ -4,6 +4,10 @@
 {{ title }}
 {% endblock title %}
 
+{% block headScript %}
+    <script src="{{ base_url }}/public/js/cart/modifyCart.js"></script>
+{% endblock %}
+
 {% block content %}
 <div class="flex justify-center my-6">
     <div class="flex flex-col w-full p-8 text-gray-800 bg-white shadow-lg pin-r pin-y md:w-4/5 lg:w-4/5">
@@ -158,6 +162,9 @@
 
                 var name = clone.querySelector("#item-cart__name");
                 name.innerHTML = item.name;
+
+                var removeItem = clone.querySelector('button[name="removeItemBtn"]');
+                removeItem.setAttribute("data-sku", item.sku);
 
                 var quantity = clone.querySelector("#item-cart__quantity");
                 quantity.value = item.amount;
