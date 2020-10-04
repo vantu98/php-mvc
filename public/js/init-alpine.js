@@ -7,5 +7,13 @@ function data() {
     closeCart() {
       this.isCartOpen = false;
     },
+
+    isUserOpen: false,
+    toogleUser() {
+      this.isUserOpen = !this.isUserOpen;
+    },
+    closeUser() {
+      this.isUserOpen = false;
+    },
   };
 }
