@@ -15,14 +15,14 @@ function addToLS() {
   var id = document.getElementById("id").innerHTML;
 
   if (choose == "") {
-    alert("Xin chọn size");
+    return alert("Xin chọn size");
   }
 
   // Check amount
   var amount = document.getElementById("amount").value;
 
   if (amount == "") {
-    alert("Mời chọn số lượng");
+    return alert("Mời chọn số lượng");
   }
 
   var product = {
@@ -35,13 +35,14 @@ function addToLS() {
     amount: amount,
   };
 
-  if (cart != null) {
+  if (cart != []) {
     cart.forEach((item) => {
       if (item.id == id) {
         var a = parseInt(item.amount);
         item.amount = a += parseInt(amount);
+        break;
       }else{
-          cart.push(product);
+          
       }
     });
   } else {
@@ -49,4 +50,6 @@ function addToLS() {
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
+
+  console.log();
 }
