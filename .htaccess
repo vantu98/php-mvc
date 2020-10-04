@@ -1,0 +1,51 @@
+# BEGIN
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# END
+
+# ADMIN
+RewriteRule ^admin/login.html$ index.php?role=admin&controller=login&action=loginForm
+RewriteRule ^admin/dashboard.html$ index.php?role=admin&controller=dashboard&action=index
+
+# - Product
+RewriteRule ^admin/product.html$ index.php?role=admin&controller=product&action=index
+RewriteRule ^admin/product/add-new-product.html$ index.php?role=admin&controller=product&action=addNewProductView
+RewriteRule ^admin/product/edit-product/([a-zA-Z0-9_-])+$ index.php?role=admin&controller=product&action=editProductView&params=$1
+RewriteRule ^admin/product/postAddNewProduct$ index.php?role=admin&controller=product&action=postAddNewProduct
+RewriteRule ^admin/product/postUpdateProduct/([a-zA-Z0-9_-])+$ index.php?role=admin&controller=product&action=postUpdateProduct&params=$1
+RewriteRule ^admin/product/postDeleteProduct/([a-zA-Z0-9_-])+$ index.php?role=admin&controller=product&action=postDeleteProduct&params=$1
+
+# - Category
+RewriteRule ^admin/categories.html$ index.php?role=admin&controller=categories&action=index
+RewriteRule ^admin/add-new-category$ index.php?role=admin&controller=categories&action=postAddNewCategory
+RewriteRule ^admin/delete-category$ index.php?role=admin&controller=categories&action=postDeleteCategory
+RewriteRule ^admin/edit-category/([a-zA-Z0-9_-])+$ index.php?role=admin&controller=categories&action=updateView&params=$1
+RewriteRule ^admin/post-edit-category$ index.php?role=admin&controller=categories&action=postUpdateCat
+
+# - Gallery
+RewriteRule ^admin/galleries.html$ index.php?role=admin&controller=galleries&action=index
+RewriteRule ^admin/galleries/upload.html$ index.php?role=admin&controller=galleries&action=uploadImage
+RewriteRule ^admin/galleries/postUpload$ index.php?role=admin&controller=galleries&action=postUploadImage
+RewriteRule ^admin/galleries/getAllImgAjax$ index.php?role=admin&controller=galleries&action=getAllImgAjax
+
+# - Orders
+RewriteRule ^admin/orders.html$ index.php?role=admin&controller=orders&action=index
+# END ADMIN
+
+# USER
+# - Auth
+RewriteRule ^sign-up.html$ index.php?role=user&controller=auth&action=signUpView
+
+# - Home
+
+# - Product
+RewriteRule ^product-([a-zA-Z0-9_-])+$ index.php?role=user&controller=product&action=detail&params=$1
+
+# - Category
+RewriteRule ^category/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ index.php?role=user&controller=category&action=getProductInCategory&params=$2
+
+# - Cart
+RewriteRule ^checkout.html$ index.php?role=user&controller=cart&action=checkout    
+
+# END USER
