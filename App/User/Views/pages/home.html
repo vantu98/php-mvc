@@ -35,7 +35,7 @@
             {% for item in category %}
             <div class="relative">
                 <div class="absolute z-10 tu-center">
-                    <a href="{{ base_url }}/category/{{ item.c_slug }}"
+                    <a href="{{ base_url }}/category/{{ item.c_slug }}/{{ item.id }}"
                         class="text-3xl font-semibold text-white">{{ item.c_name }}</a>
                 </div>
                 <div
@@ -84,7 +84,7 @@
 
         {% for item in product %}
         <div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
-            <a href="{{ base_url }}/product/{{ item.p_slug }}">
+            <a href="{{ base_url }}/index.php?role=user&controller=product&action=detail&params={{ item.id }}">
                 <img class="hover:grow hover:shadow-lg" src="{{ item.g_slug }}">
                 <div class="pt-3 flex items-center justify-between">
                     {% if item.p_name | length > 20 %}

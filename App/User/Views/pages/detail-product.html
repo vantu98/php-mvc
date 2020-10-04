@@ -4,6 +4,10 @@
 {{ title }}
 {% endblock title %}
 
+{% block headScript %}
+    <script src="{{ base_url }}/public/js/cart/addToCart.js"></script>
+{% endblock headScript %}
+
 {% block content %}
 <section class="bg-white py-8">
 
@@ -12,17 +16,59 @@
         <nav id="store" class="w-full z-30 top-0 px-6 py-1">
             <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
 
-                <a class="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl "
-                    href="#">
-                    Categories
-                </a>
             </div>
         </nav>
 
-        {% for item in product %}
-            <p>{{ item.p_name }}</p>
-        {% endfor %}
-    </div>
+        <div class="px-6 py-4">
+            <div class="grid grid-cols-2 gap-6">
+                {# product img #}
+                <div class="w-full h-full">
+                    <img src="{{ product.g_slug }}" alt="" class="w-full h-full">
+                </div>
+                {# product info #}
+                <div class="w-full">
+                    <h2 class="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-2xl">{{ product.p_name }}</h2>
 
+                    <p class="py-4">{{ product.p_desc }}</p>
+
+                    <p>SKU: {{ product.p_sku }}</p>
+
+                    <p class="font-semibold text-xl text-teal-400 py-4">Giá: {{ product.p_price }} vnd</p>
+
+                    <div class="flex items-center">
+                        <p class="py-2 px-2 ">Categories:</p>
+                        {% for item in pic %}
+                            <a href="{{ base_url }}/category/{{ item.c_name }}/{{ item.id }}" class="text-blue-600 font-semibold text-sm bg-blue-200 p-2 mx-2">
+                                {{ item.c_name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+
+                    <select name="sizes" id="sizes" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 my-4"> 
+                        <option value="">Chọn size giày</option>
+                        <option value="35">35</option>
+                        <option value="36">36</option>
+                        <option value="37">37</option>
+                        <option value="38">38</option>
+                        <option value="39">39</option>
+                        <option value="40">40</option>
+                    </select>
+
+                    <input type="number" name="amount" id="amount" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 my-4" placeholder="Số lượng">
+
+                    <button onclick="addToLS()" class="w-full py-4 font-bold text-2xl text-white bg-black">Thêm Vào giỏ hàng</button>
+                </div>
+            </div>
+        </div>
+        
+    </div>
 </section>
+
+<div id="secret" class="w-0 h-0 hidden">
+    <span id="name">{{ product.p_name }}</span>
+    <span id="sku">{{ product.p_sku }}</span>
+    <span id="id">{{ product.id }}</span>
+    <span id="feature_img">{{ product.g_slug }}</span>
+    <span id="price">{{ product.p_price }}</span>
+</div>
 {% endblock content %}
