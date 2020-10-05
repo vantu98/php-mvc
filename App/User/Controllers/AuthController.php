@@ -2,6 +2,7 @@
 
 namespace App\User\Controllers;
 
+use App\Admin\Models\Auth;
 use App\Config;
 use Core\View;
 
@@ -12,4 +13,6 @@ class AuthController{
             'base_url' => Config::BASE_URL
         ]);
     }
+
+    
 }
