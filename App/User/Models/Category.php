@@ -12,11 +12,26 @@ class Category extends Model
     {
     }
 
-    public static function getLimitCategory($limit = 8)
+    public static function getLimitCategory($limit = 3)
     {
         $db = static::DB();
 
         $sql = "SELECT c.id, c.c_name, c.c_slug, g.g_slug FROM categories c INNER JOIN galleries g ON g.id = c.gallery_id LIMIT $limit";
+
+        try {
+            $stmt = $db->query($sql);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function getTopMostCategory($limit = 3)
+    {
+        $db = static::DB();
+
+        $sql = "SELECT c.c_name,c.c_slug,c.id, count(p_id) as 'num_of_item', g.g_slug FROM product__in_categories pic INNER JOIN categories c ON c.id = pic.c_id INNER JOIN galleries g on c.gallery_id = g.id GROUP BY c_id order by num_of_item desc LIMIT $limit";
 
         try {
             $stmt = $db->query($sql);

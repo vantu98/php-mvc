@@ -14,12 +14,11 @@ class CategoryController{
     {
         $product = Category::getProductInCategoryByID($categoryID);
 
-        $title = $product[0]['c_name'];
-
         View::renderTemplate('user', 'pages/shop.html', [
-            'title' => $title,
+            'title' => 'Category',
             'product' => $product,
-            'base_url' => Config::BASE_URL
+            'base_url' => Config::BASE_URL,
+            'cat' => $categoryID
         ]);
     }
 }

@@ -16,7 +16,7 @@ class HomeController
             'title' => 'Home',
             'base_url' => Config::BASE_URL,
             'product' => Product::getLimitProduct(8),
-            'category' => Category::getLimitCategory(3),
+            'category' => Category::getTopMostCategory(3),
             'is_login' => Auth::isLogin(),
         ]);
     }
