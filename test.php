@@ -1,14 +1,9 @@
 <?php
 
-if (isset($_GET['params'])) {
-    $params = processParam();
-    var_dump($params);
-}
+use App\Admin\Models\User;
 
-function processParam()
-{
-    if (isset($_GET['params'])) {
-        return explode("/", filter_var(trim($_GET['params'])));
-    }
-    return [];
-}
+require('vendor/autoload.php');
+
+$user = User::getSingleUser(3);
+
+var_dump($user);
