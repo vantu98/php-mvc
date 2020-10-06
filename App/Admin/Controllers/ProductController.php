@@ -73,8 +73,10 @@ class ProductController
     public function postUpdateProduct($p_id)
     {
         $productList = $_POST['product'];
+        $pID = $_POST['pID'];
 
-        Product::updateSingleProductById($p_id, $productList);
+        Product::updateSingleProductById($pID, $productList);
+        echo $p_id;
     }
 
     public function postDeleteProduct($p_id)

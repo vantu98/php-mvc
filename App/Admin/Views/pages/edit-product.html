@@ -251,6 +251,8 @@
 <script>
     function updateProduct() {
         // get product infomation
+        pID = "{{ product.id }}";
+        console.log(pID);
         pName = $("#p-name").val();
         pSku = $("#p-sku").val();
         pSlug = $("#p-slug").val();
@@ -289,7 +291,8 @@
             dataType: "json",
             data: {
                 product: productList,
-                pInCat: pCategory
+                pInCat: pCategory,
+                pID: pID
             },
             success: function (response) {
                 console.log(response);
