@@ -39,6 +39,9 @@ RewriteRule ^sign-up.html$ index.php?role=user&controller=auth&action=signUpView
 
 # - Home
 
+# - Shop
+RewriteRule ^shop.html$ index.php?role=user&controller=shop&action=index
+
 # - Product
 RewriteRule ^product-([a-zA-Z0-9_-])+$ index.php?role=user&controller=product&action=detail&params=$1
 
@@ -49,3 +52,10 @@ RewriteRule ^category/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ index.php?role=user&con
 RewriteRule ^checkout.html$ index.php?role=user&controller=cart&action=checkout    
 
 # END USER
+
+# AUTH
+
+RewriteRule ^auth/checkPhonenumber$ index.php?role=admin&controller=Auth&action=postCheckPhoneNumber
+RewriteRule ^auth/checkEmail$ index.php?role=admin&controller=Auth&action=postCheckUserEmail
+
+# END AUTH
