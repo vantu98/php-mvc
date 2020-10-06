@@ -70,7 +70,8 @@
                                 </label>
                                 <input
                                     class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                    id="c_password" type="password" placeholder="******************" onchange="checkPassword()"/>
+                                    id="c_password" type="password" placeholder="******************"
+                                    onchange="checkPassword()" />
                                 <p class="text-xs italic"></p>
                             </div>
                         </div>
@@ -186,13 +187,33 @@
             return passwdValue;
         }
 
-        function signup(){
-            if(!checkEmail() || !checkPassword() || !isPhoneExistInDatabase()){
-                console.log("khong thoa dieu kien dang ki");
+        function signup() {
+            var username = document.getElementById("fullname").value;
+            if (!checkEmail() || !checkPassword() || !isPhoneExistInDatabase() || username == "") {
+                alert("Thiếu hoặc sai trường, mời nhập lại");
                 return;
             }
 
-            console.log("di dieu kien");
+            var userInfo = {
+                '_name':username,
+                '_phone': isPhoneExistInDatabase(),
+                '_email': checkEmail(),
+                '_passwd': checkPassword()
+            }
+
+            $.ajax({
+                url: "{{ base_url }}/admin/regist",
+                dataType: "json",
+                type: "POST",
+                data: {
+                    user: userInfo
+                },
+                success: function (response) {
+                    var value = JSON.stringify(response);
+
+                    console.log(value);
+                }
+            });
         }
     </script>
 </body>

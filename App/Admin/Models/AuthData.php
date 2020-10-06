@@ -6,7 +6,7 @@ use PDO;
 use Core\Model;
 use PDOException;
 
-class Auth extends Model
+class AuthData extends Model
 {
     public static function isPhoneNumerRegister($phone_num)
     {
@@ -36,5 +36,20 @@ class Auth extends Model
         }
         $result->fetchAll(PDO::FETCH_ASSOC);
         return $result->rowCount();
+    }
+
+    public static function registNewUser($data)
+    {
+        $db = static::DB();
+
+        $sql = "INSERT INTO users(u_email, u_password, u_fullname, user_phone_num) VALUES (:_email, :_passwd, :_name, :_phone)";
+
+        try {
+            $db->prepare($sql)->execute($data);
+
+            echo "Regist New User Successfully";
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
 }

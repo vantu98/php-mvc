@@ -2,7 +2,8 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Models\Auth;
+use App\Admin\Models\AuthData;
+use Core\Auth;
 
 class AuthController
 {
@@ -10,7 +11,7 @@ class AuthController
     {
         $phone_number = $_POST['phone_num'];
 
-        $result = Auth::isPhoneNumerRegister($phone_number);
+        $result = AuthData::isPhoneNumerRegister($phone_number);
 
         $response = [];
         if ($result > 0) {
@@ -37,7 +38,7 @@ class AuthController
     {
         $email = strval($_POST['email']);
 
-        $result = Auth::checkUserEmail($email);
+        $result = AuthData::checkUserEmail($email);
 
         $response = [];
         if ($result > 0) {
@@ -59,4 +60,15 @@ class AuthController
 
         echo json_encode($response);
     }
+
+    public function postUserRegister()
+    {
+        $user = $_POST['user'];
+
+        $user['_passwd'] = Auth::encrypt($user['_passwd']);
+
+        AuthData::registNewUser($user);
+    }
+
+    
 }
