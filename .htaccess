@@ -31,6 +31,10 @@ RewriteRule ^admin/galleries/getAllImgAjax$ index.php?role=admin&controller=gall
 
 # - Orders
 RewriteRule ^admin/orders.html$ index.php?role=admin&controller=orders&action=index
+
+# - REGIST
+RewriteRule ^admin/regist$ index.php?role=admin&controller=auth&action=postUserRegister
+
 # END ADMIN
 
 # USER
