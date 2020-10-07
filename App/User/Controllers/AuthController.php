@@ -23,12 +23,12 @@ class AuthController
 
         $compare = User::getSingleByEmail($email, $passwd);
 
-        $user = ['email' => $email, 'passwd' => $passwd];
-
         if ($compare == 1) {
-            setcookie('user', $user, time() * 7200);
+            setcookie('user', $email, time() + Config::COOKIES_EXPIRE);
+            echo "cookie is set";
+            echo $compare;
         } else {
-            
+            echo $compare;
         }
     }
 }

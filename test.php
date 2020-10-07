@@ -1,9 +1,9 @@
 <?php
 
-use App\Admin\Models\User;
+setcookie('test', 'abc', time() + 3600, "/");
 
-require('vendor/autoload.php');
-
-$user = User::getSingleUser(3);
-
-var_dump($user);
+if (isset($_COOKIE['test'])) {
+    echo "set";
+} else {
+    echo "no";
+}

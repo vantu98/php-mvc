@@ -11,7 +11,7 @@ class Auth
      */
     public static function isLogin()
     {
-        if (isset($_COOKIE['user_login'])) {
+        if (isset($_COOKIE['user'])) {
             return true;
         }
         return false;
