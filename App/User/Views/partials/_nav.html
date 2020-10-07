@@ -78,14 +78,14 @@
                 <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0" @click.away="open = false" @keydown.escape="open = false"
                     x-show="open"
-                    class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:text-gray-300 dark:border-gray-700 dark:bg-gray-700">
+                    class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:text-gray-300 dark:border-gray-700 dark:bg-gray-700" id="nav-login-form">
                     <li class="flex flex-col p-2">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-                            Username
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                            Email
                         </label>
                         <input
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="username" type="text" placeholder="Username">
+                            id="email" type="text" placeholder="email">
 
                         <label class="block text-gray-700 text-sm font-bold mb-2 mt-4" for="passwd">
                             Password
@@ -94,7 +94,7 @@
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="password" type="password" placeholder="*********">
 
-                            <button id="login-btn" class="p-2 px-4 text-center font-semibold text-sm bg-blue-400 hover:bg-blue-500 my-4 text-white rounded-lg">Login</button>
+                            <button id="login-btn" class="p-2 px-4 text-center font-semibold text-sm bg-blue-400 hover:bg-blue-500 my-4 text-white rounded-lg" onclick="login()">Login</button>
                     </li>
                     <li class="flex flex-col">
                         <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"

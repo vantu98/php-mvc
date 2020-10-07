@@ -35,6 +35,23 @@ class User extends Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getSingleByEmail($email, $passwd)
+    {
+        $db = static::DB();
+
+        $sql = "SELECT u.id FROM users u WHERE u_email = '$email' AND u_password = '$passwd'";
+
+        try {
+            $stmt = $db->query($sql);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $stmt->rowCount();
+    }
+
     public static function getArea($uID)
     {
         $db = static::DB();
