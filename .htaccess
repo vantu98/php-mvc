@@ -35,12 +35,14 @@ RewriteRule ^admin/orders.html$ index.php?role=admin&controller=orders&action=in
 # - USER
 RewriteRule ^admin/regist$ index.php?role=admin&controller=auth&action=postUserRegister
 RewriteRule ^admin/user.html$ index.php?role=admin&controller=user&action=index
+RewriteRule ^admin/user/edit/([a-zA-Z0-9_-])+$ index.php?role=admin&controller=user&action=editUserView&params=$1
 
 # END ADMIN
 
 # USER
 # - Auth
 RewriteRule ^sign-up.html$ index.php?role=user&controller=auth&action=signUpView
+RewriteRule ^postLogin$ index.php?role=user&controller=auth&action=postLogin
 
 # - Home
 
@@ -55,6 +57,9 @@ RewriteRule ^category/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ index.php?role=user&con
 
 # - Cart
 RewriteRule ^checkout.html$ index.php?role=user&controller=cart&action=checkout    
+
+# - Order
+RewriteRule ^order/create-order index.php?role=admin&controller=order&action=createOrder
 
 # END USER
 
