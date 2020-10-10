@@ -38,13 +38,27 @@
                 <div class="lg:px-2 lg:w-1/2">
                     <!--Check if user is exist-->
                     {% if user == -1 %}
+                    <p>Vui long dang nhap de thanh toan</p>
                     {% else %}
+
+                    {% for item in user %}
+                    <h2 class="text-xl font-semibold">Thong tin khach hang</h2>
+                    <input type="text" class="hidden" id="user-id" value="{{ item.id }}">
+                    <p><strong class="font-semi-bold">Tên: </strong>{{ item.u_fullname }}</p>
+                    <p><strong class="font-semi-bold">Email: </strong>{{ item.u_email }}</p>
+                    <p><strong class="font-semi-bold">SDT: </strong>{{ item.user_phone_num }}</p>
+                    <p><strong class="font-semi-bold">Địa chỉ: </strong>{{ item.u_address }}</p>
+                    {% endfor %}
                     {% endif %}
                 </div>
                 <div class="lg:px-2 lg:w-1/2">
-                    <a href="#">
+                    {% if user == -1 %}
+
+                    {% else %}
+                    <div>
                         <button
-                            class="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
+                            class="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none"
+                            id="checkout-btn">
                             <svg aria-hidden="true" data-prefix="far" data-icon="credit-card" class="w-8"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                                 <path fill="currentColor"
@@ -52,7 +66,8 @@
                             </svg>
                             <span class="ml-2 mt-5px">Procceed to checkout</span>
                         </button>
-                    </a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -99,5 +114,31 @@
             });
         }
     }
+</script>
+
+<script>
+    $(document).ready(function () {
+        var checkoutBtn = $("#checkout-btn");
+
+        checkoutBtn.click(function () {
+            var productList = JSON.parse(localStorage.getItem('cart'));
+            var userId = document.getElementById("user-id").value;
+
+            $.ajax({
+                url: "{{ base_url }}/order/create-order",
+                dataType: "json",
+                type: "POST",
+                //processData: false,
+                //contentType: false,
+                data: {
+                    pList: productList,
+                    userId: userId
+                },
+                success: function (response) {
+
+                }
+            });
+        });
+    });
 </script>
 {% endblock footerScript %}

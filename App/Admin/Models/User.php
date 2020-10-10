@@ -52,6 +52,19 @@ class User extends Model
         return $stmt->rowCount();
     }
 
+    public static function getSingleUserByEmail($email)
+    {
+        $db = static::DB();
+        $sql = "SELECT u.id, u.u_name, u.u_email, u.u_fullname, u.u_address, u.user_phone_num, u.u_avatar, us.us_name, us.us_class FROM users u INNER JOIN users__status us ON u.status_id = us.id WHERE u.u_email = '$email'";
+
+        try {
+            $stmt = $db->query($sql);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function getArea($uID)
     {
         $db = static::DB();
