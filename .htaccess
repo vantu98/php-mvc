@@ -60,7 +60,7 @@ RewriteRule ^checkout.html$ index.php?role=user&controller=cart&action=checkout
 
 # - Order
 RewriteRule ^order/create-order index.php?role=admin&controller=order&action=createOrder
-
+RewriteRule ^order/detail/([a-zA-Z0-9_-]+) index.php?role=admin&controller=order&action=getorderdetail&params=$1
 # END USER
 
 # AUTH
