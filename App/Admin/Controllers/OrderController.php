@@ -2,7 +2,10 @@
 
 namespace App\Admin\Controllers;
 
-class OrderController{
+use App\Admin\Models\Order;
+
+class OrderController
+{
     /**
      * Create new order
      * Data load from ajax
@@ -12,17 +15,33 @@ class OrderController{
      * @return string "create order fail" if not create order
      */
 
-     public function createOrder()
-     {
-         $userID = $_POST['userId'];
-         $productList = $_POST['pList'];
+    public function createOrder()
+    {
+        $userID = $_POST['userId'];
+        $productList = $_POST['pList'];
 
-        $productID = [];
+        $productDetail = [];
+        $total = 0;
 
-        foreach ($productList as $item ) {
-            array_push($productID, $item['id']);
+        $result = false;
+
+        foreach ($productList as $item) {
+            $p = [
+                'p_id' => $item['id'],
+                'p_amount' => $item['amount'],
+                'p_unit_price' => $item['price']
+            ];
+
+            array_push($productDetail, $p);
+
+            $totalOfProduct = $item['amount'] * $item['price'];
+            $total += $totalOfProduct;
         }
 
-         var_dump($userID);
-     }
+        $order_id = Order::createOrder($userID, $total, date("Y-m-d G:i:s"), $productDetail);
+
+        Order::addOrderDetail($order_id, $productDetail);
+
+        echo true;
+    }
 }

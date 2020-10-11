@@ -135,7 +135,10 @@
                     userId: userId
                 },
                 success: function (response) {
-
+                    if(response == 1){
+                        localStorage.removeItem("cart");
+                        window.location.href="{{ base_url }}";
+                    }
                 }
             });
         });
