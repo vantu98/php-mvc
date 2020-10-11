@@ -1,14 +1,16 @@
 <?php
+
 namespace App;
 
-class Config{
+class Config
+{
     /**
      * Database host
      * 
      * @var string
      */
     const DB_HOST = 'localhost';
-    
+
     /**
      * Database name
      * 
@@ -49,4 +51,17 @@ class Config{
      * @var number
      */
     const COOKIES_EXPIRE = 86400;
+
+    /**
+     * MAIL CONFIG
+     */
+
+    /**
+     * Host mail config
+     * 
+     * @var mail
+     * @var password
+     */
+    const MAIL_USERNAME = "tu.testweb@gmail.com";
+    const MAIL_PASSWORD = "tutestwebUU9";
 }
