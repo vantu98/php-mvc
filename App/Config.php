@@ -64,4 +64,5 @@ class Config
      */
     const MAIL_USERNAME = "tu.testweb@gmail.com";
     const MAIL_PASSWORD = "tutestwebUU9";
+    const MAIL_HOST = "smtp.gmail.com";
 }

@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Admin\Models\Order;
 use App\Admin\Models\User;
 use App\Config;
+use Core\Mail;
 use Core\View;
 
 class OrderController
@@ -22,6 +23,7 @@ class OrderController
     {
         $userID = $_POST['userId'];
         $productList = $_POST['pList'];
+        $user_email = $_COOKIE['user'];
 
         $productDetail = [];
         $total = 0;
@@ -44,6 +46,9 @@ class OrderController
         $order_id = Order::createOrder($userID, $total, date("Y-m-d G:i:s"), $productDetail);
 
         Order::addOrderDetail($order_id, $productDetail);
+
+        //send mail
+        Mail::sendMail($user_email);
 
         echo $order_id;
     }
