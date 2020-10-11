@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Models\Order;
+use App\Admin\Models\User;
 use App\Config;
 use Core\View;
 
@@ -59,7 +60,7 @@ class OrderController
         View::renderTemplate('user', 'pages/order-detail', [
             'title' => 'Order Detail',
             'base_url' => Config::BASE_URL,
-            
+
         ]);
     }
 
@@ -73,6 +74,18 @@ class OrderController
      */
     public function getOrderDetail($order_id)
     {
-        
+        $user_email = $_COOKIE['user'];
+
+        $orders = Order::getOrderOfUser($order_id, $user_email);
+        $user = User::getSingleUserByEmail($user_email)[0];
+        //var_dump($orders);
+
+        View::renderTemplate('user', 'pages/order-detail.html', [
+            'title' => 'Order Detail',
+            'base_url' => Config::BASE_URL,
+            'orders' => $orders,
+            'order' => array_shift($orders),
+            'user' => $user
+        ]);
     }
 }

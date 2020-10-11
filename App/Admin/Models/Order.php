@@ -3,6 +3,7 @@
 namespace App\Admin\Models;
 
 use Core\Model;
+use PDO;
 use PDOException;
 
 class Order extends Model
@@ -65,8 +66,21 @@ class Order extends Model
       * Find and return order of user
       * 
       * @param int order_id
-      * @param int user_id
+      * @param string user_email
       * 
       * @return array mess and order detail
       */
+     public static function getOrderOfUser($order_id, $user_email)
+     {
+         $db=static::DB();
+         $sql = "SELECT o.id, o.total, o.created_at,p.p_name, od.p_amount, od.p_unit_price FROM orders o INNER JOIN users u ON o.user_id = u.id INNER JOIN orders__detail od ON od.order_id = o.id INNER JOIN product p ON p.id = od.p_id WHERE u.u_email = '$user_email' AND o.id = $order_id";
+
+         try {
+             $stmt = $db->query($sql);
+         } catch (PDOException $e) {
+             echo $e->getMessage();
+         }
+
+         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+     }
 }

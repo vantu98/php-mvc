@@ -1,9 +1,73 @@
 {% extends "master.html" %}
 
 {% block title %}
-    {{ title }}
+{{ title }}
 {% endblock title %}
 
 {% block content %}
-    
+<div class="container mx-auto color-black">
+    <h2 class="font-semibold text-2xl">Order Detail</h2>
+
+    <div class="grid grid-cols-2 gap-6">
+        <a class="p-4 flex items-center tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl h-1/2 w-1/2"
+            href="{{ base_url }}">
+            <img src="https://ananas.vn/wp-content/themes/ananas/fe-assets/images/svg/Logo_Ananas_Header.svg" alt=""
+                class="w-12 h-12">
+
+            PINEAPPLE
+        </a>
+
+        <ul>
+            <li><strong>Order id: </strong>#{{ order.id }}</li>
+            <li><strong>Date: </strong>{{ order.created_at | date("d-m-Y") }}</li>
+            <li class="text-orange-500"><strong>Total: </strong>{{ order.total }}</li>
+        </ul>
+    </div>
+
+    <div class="grid grid-cols-2 gap-6 mt-6 mb-4">
+        <div class="w-full">
+            <p class="text-lg font-semibold py-2 px-4">Billing Address</p>
+            <ul>
+                <li id="s_name"><strong>Pineapple Store</strong></li>
+                <li id="s_address">161 Dat Thanh, phuong 6, quan Tan Binh, TP HCM</li>
+                <li id="s_nation">Viet Nam</li>
+                <li id="s_phone_num">09xx xxx xxx</li>
+                <li id="s_email">contact@pineapple.com</li>
+            </ul>
+        </div>
+        <div class="w-full">
+            <p class="text-lg font-semibold py-2 px-4">Shipping Address</p>
+            <ul>
+                <li id="u_name">{{ user.u_fullname }}</li>
+                <li id="u_address">{{ user.u_address }}</li>
+                <li id="u_nation">Viet Nam</li>
+                <li id="u_phone_num">{{ user.user_phone_num }}</li>
+                <li id="u_email">{{ user.u_mail }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <table class="table-auto min-w-full">
+        <thead class="text-white bg-blue-400 text-left">
+            <tr>
+                <th class="p-2">Items</th>
+                <th class="p-2">Quantity</th>
+                <th class="p-2">Unit Price</th>
+                <th class="p-2">Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in orders %}
+            <tr>
+                <td class="p-2">{{ item.p_name }}</td>
+                <td class="p-2">{{ item.p_amount }}</td>
+                <td class="p-2">{{ item.p_unit_price }}</td>
+                <td class="p-2">{{ item.p_amount * item.p_unit_price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="my-6"></div>
 {% endblock content %}
