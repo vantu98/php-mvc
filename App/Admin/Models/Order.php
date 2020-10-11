@@ -60,4 +60,13 @@ class Order extends Model
             }
         }
      }
+
+     /**
+      * Find and return order of user
+      * 
+      * @param int order_id
+      * @param int user_id
+      * 
+      * @return array mess and order detail
+      */
 }

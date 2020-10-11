@@ -3,6 +3,8 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Models\Order;
+use App\Config;
+use Core\View;
 
 class OrderController
 {
@@ -42,6 +44,35 @@ class OrderController
 
         Order::addOrderDetail($order_id, $productDetail);
 
-        echo true;
+        echo $order_id;
+    }
+
+    /**
+     * Return order detail of specific client
+     * 
+     * @param int order number (order_id)
+     * @return view order detail
+     */
+    public function orderDetail($order_id)
+    {
+        //get order
+        View::renderTemplate('user', 'pages/order-detail', [
+            'title' => 'Order Detail',
+            'base_url' => Config::BASE_URL,
+            
+        ]);
+    }
+
+    /**
+     * Return order data of specific user and order
+     * 
+     * @param 
+     * @param 
+     * 
+     * @return
+     */
+    public function getOrderDetail($order_id)
+    {
+        
     }
 }
